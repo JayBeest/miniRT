@@ -33,8 +33,8 @@ t_err	rt_init(t_minirt *rt)
 	err = rt_mlx_init(&rt->mlx);
 	rt->scene.resolution_x = WIDTH;
 	rt->scene.resolution_y = HEIGHT;
-	rt->scene.viewport_x = WIDTH/2;
-	rt->scene.viewport_y = HEIGHT/2;
+	rt->scene.viewport_x = WIDTH / 2;
+	rt->scene.viewport_y = HEIGHT / 2;
 	rt->scene.d = 1;
 	init_temp_scene(rt);
 
