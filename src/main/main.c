@@ -9,9 +9,11 @@
 
 void	hook(void *arg)
 {
-	t_mlx	*mlx;
+	t_minirt	*rt;
+	t_mlx		*mlx;
 
-	mlx = arg;
+	rt = arg;
+	mlx = &rt->mlx;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx->mlx);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_UP))
@@ -22,6 +24,23 @@ void	hook(void *arg)
 		mlx->img->instances[0].x -= 5;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
 		mlx->img->instances[0].x += 5;
+
+	static int toggle = 1;
+	if (toggle)
+	{
+		if (rt->scene.d == 20)
+			toggle = 0;
+		else
+			rt->scene.d++;
+	}
+	else
+	{
+		if (rt->scene.d == 1)
+			toggle = 1;
+		else
+			rt->scene.d--;
+	}
+	render_scene(rt);
 }
 
 int	main(void)
@@ -37,8 +56,7 @@ int	main(void)
 	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
 
 //	printf("rgba 128/128/128/0: %X\n", color_to_int((t_color){97, 97, 97, 255}));
-	rt_putpixel(0, 0, color_to_int((t_color){232, 38, 203, 255}), &rt);
-	render_scene(&rt);
+	rt_putpixel(0, 0, color_to_int((t_color){255, 255, 255, 255}), &rt);
 
 	mlx_image_to_window(rt.mlx.mlx, rt.mlx.img, 0, 0);
 	mlx_loop_hook(rt.mlx.mlx, &hook, &rt);

@@ -8,7 +8,7 @@ t_quad_result	intersect_sphere(t_vector o, t_vector d, t_rt_shape *shape)
 	t_quad_abc		quad;
 	t_quad_result	result;
 	t_vector		co;
-	int 			discriminant;
+	double 			discriminant;
 
 	co = substract_vector(o, shape->vector);
 	quad.a = dot_product(d, d);

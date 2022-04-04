@@ -20,9 +20,10 @@ t_err	rt_mlx_init(t_mlx *mlx)
 void	init_temp_scene(t_minirt *rt)
 {
 	rt->scene.origin = (t_vector){0, 0, 0};
-	rt->scene.shapes = new_sphere(1, (t_vector){0, -1, 3}, (t_color){255, 0, 0, 255});
-	rt->scene.shapes->next = new_sphere(1, (t_vector){2, 0, 4}, (t_color){0, 0, 255, 255});
-	rt->scene.shapes->next->next = new_sphere(1, (t_vector){-2, 0, 4}, (t_color){0, 255, 0, 255});
+	rt->scene.shapes = new_sphere(10, (t_vector){0, -10, 30}, (t_color){255, 0, 0, 255});
+	rt->scene.shapes->next = new_sphere(10, (t_vector){20, 0, 40}, (t_color){0, 0, 255, 255});
+	rt->scene.shapes->next->next = new_sphere(10, (t_vector){-20, 0, 4}, (t_color){0, 255, 0, 255});
+	rt->scene.shapes->next->next->next = new_sphere(10, (t_vector){20, -20, 30}, (t_color){255, 255, 0, 255});
 }
 
 t_err	rt_init(t_minirt *rt)
@@ -32,8 +33,8 @@ t_err	rt_init(t_minirt *rt)
 	err = rt_mlx_init(&rt->mlx);
 	rt->scene.resolution_x = WIDTH;
 	rt->scene.resolution_y = HEIGHT;
-	rt->scene.viewport_x = 1;
-	rt->scene.viewport_y = 1;
+	rt->scene.viewport_x = WIDTH/2;
+	rt->scene.viewport_y = HEIGHT/2;
 	rt->scene.d = 1;
 	init_temp_scene(rt);
 

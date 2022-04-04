@@ -3,13 +3,14 @@
 #include <draw_utils.h>
 #include <vector_utils.h>
 #include <intersect.h>
+#include <math.h>
 
 t_vector	canvas_to_viewport(int x, int y, t_scene scene)
 {
 	t_vector	v;
 
-	v.x = (x * scene.viewport_x) / scene.resolution_x;
-	v.y = (y * scene.viewport_y) / scene.resolution_y;
+	v.x = x * scene.viewport_x / scene.resolution_x;
+	v.y = y * scene.viewport_y / scene.resolution_y;
 	v.z = scene.d;
 	return (v);
 }
@@ -25,15 +26,16 @@ t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 
 	closest_sphere = NULL;
 	node = scene.shapes;
+	closest_t = INFINITY;
 	while (node)
 	{
 		quad_result = intersect_shape(o, d, node);
-		if (quad_result.t1 > 1 && quad_result.t1 < closest_t)
+		if (quad_result.t1 > 1 && quad_result.t1 < 1000 && quad_result.t1 < closest_t)
 		{
 			closest_t = quad_result.t1;
 			closest_sphere = node;
 		}
-		if (quad_result.t2 > 1 && quad_result.t2 < closest_t)
+		if (quad_result.t2 > 1 && quad_result.t2 < 1000 && quad_result.t2 < closest_t)
 		{
 			closest_t = quad_result.t1;
 			closest_sphere = node;

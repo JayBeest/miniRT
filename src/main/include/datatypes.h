@@ -23,9 +23,9 @@ typedef enum e_err
 
 typedef struct s_quad_abc
 {
-	int	a;
-	int	b;
-	int	c;
+	double	a;
+	double	b;
+	double	c;
 }		t_quad_abc;
 
 typedef	struct s_quad_result
@@ -61,9 +61,9 @@ typedef struct s_pixel
 
 typedef struct s_vector
 {
-	int	x;
-	int	y;
-	int	z;
+	double	x;
+	double	y;
+	double	z;
 }			t_vector;
 
 typedef struct s_position
