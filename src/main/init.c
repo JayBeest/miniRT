@@ -19,7 +19,10 @@ t_err	rt_mlx_init(t_mlx *mlx)
 
 void	init_temp_scene(t_minirt *rt)
 {
+	t_rt_shape	*node;
+
 	rt->scene.origin = (t_vector){0, 0, 0};
+	node = &rt->scene.shape;
 	rt->scene.shapes = new_sphere(10, (t_vector){0, -10, 30}, (t_color){255, 0, 0, 255});
 	rt->scene.shapes->next = new_sphere(10, (t_vector){20, 0, 40}, (t_color){0, 0, 255, 255});
 	rt->scene.shapes->next->next = new_sphere(10, (t_vector){-20, 0, 4}, (t_color){0, 255, 0, 255});
