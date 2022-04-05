@@ -29,8 +29,9 @@ void	init_temp_scene(t_minirt *rt)
 	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-300, -200, 1250}, (t_color){0, 255, 0, 255});//GREEN
 	rt->scene.shapes->next->next->next = new_sphere(350, (t_vector){250, -350, 900}, (t_color){255, 255, 0, 255});//YELLOW
 
-	rt->scene.ambient_ligth = new_ambient_light(1.124, (t_color){255 ,255 ,255 ,255});
-	rt->scene.lights = new_point_light(1, (t_position){-50, -180, 100}, (t_color){255 ,255 ,255 ,255});
+	rt->scene.ambient_ligth = new_ambient_light(0.4, (t_color){255 ,255 ,255 ,255});
+	rt->scene.lights = new_point_light(0.6, (t_position){-50, -180, 100}, (t_color){255 ,255 ,255 ,255});
+	rt->scene.lights->next = new_point_light(0.2, (t_position){100, -100, 150}, (t_color){255 ,255 ,255 ,255});
 	// printf("ambient:%f\n", rt->scene.ambient_ligth.ratio);
 }
 

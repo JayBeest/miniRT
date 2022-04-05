@@ -1,4 +1,5 @@
 #include <datatypes.h>
+#include <math.h>
 
 t_vector	add_vector(t_vector a, t_vector b)
 {
@@ -20,7 +21,7 @@ t_vector	substract_vector(t_vector a, t_vector b)
 	return (result);
 }
 
-t_vector	multip_vector(t_vector a, int num)
+t_vector	multip_vector(t_vector a, double num)
 {
 	t_vector	result;
 
@@ -44,4 +45,3 @@ double	dot_product(t_vector a, t_vector b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
-

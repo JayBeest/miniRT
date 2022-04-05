@@ -19,7 +19,65 @@ t_vector	canvas_to_viewport(int x, int y, t_scene scene)
 	return (v);
 }
 
+t_color	multip_color(double intensity, t_color color)
+{
+	int	r;
+	int	g;
+	int	b;
 
+	r = color.r * intensity;
+	g = color.g * intensity;
+	b = color.b * intensity;
+	if (r > 255)
+		r = 255;
+	else if (r < 0)
+		r = 0;
+	if (g > 255)
+		g = 255;
+	else if (g < 0)
+		g = 0;
+	if (b > 255)
+		b = 255;
+	else if (b < 0)
+		b = 0;
+	color.r = r;
+	color.g = g;
+	color.b = b;
+	return (color);
+}
+
+t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_scene scene)
+{
+	double		intensity;
+	int			i;
+	t_vector	l;
+	double		n_dot_l;
+
+	i = 0;
+	intensity = scene.ambient_ligth.ratio;
+	while (scene.lights)
+	{
+		l = substract_vector(scene.lights->vector, p);
+		scene.lights = scene.lights->next;
+		n_dot_l = dot_product(n, l);
+		if (n_dot_l > 0)
+			intensity += scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l)));
+		scene.lights = scene.lights->next;
+	}
+	return (multip_color(intensity, shape->color));
+}
+
+t_color	precalculate_light(t_rt_shape *shape, t_vector o, t_vector d, double closest_t, t_scene scene)
+{
+	t_vector	p;
+	t_vector	n;
+
+	p = multip_vector(d, closest_t);
+	p = add_vector(p, o);
+	n = substract_vector(p, shape->vector);
+	n = multip_vector(n, (double)1 / sqrt(dot_product(n, n)));
+	return (calculate_light(shape, p, n, scene));
+}
 
 t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 {
@@ -67,7 +125,7 @@ t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 		return ((t_color){0, 0, 0, 255});
 	if (edge)
 		return ((t_color){0, 255, 204, 255});
-	return (closest_sphere->color);
+	return (precalculate_light(closest_sphere, o, d, closest_t, scene));
 }
 
 t_err	render_scene(t_minirt *rt)
