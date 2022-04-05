@@ -77,16 +77,16 @@ typedef struct s_position
 typedef struct s_rt_shape
 {
 	int					id;
-	t_rt_shape_type	type;
+	t_rt_shape_type		type;
 	int 				fov;
 	double				ratio;
 	double				size;
 	int					radius;
 	t_color				color;
 	t_vector			vector;
-	t_position			pos1;
-	t_position			pos2;
-	t_position			pos3;
+	t_vector			pos1;
+	t_vector			pos2;
+	t_vector			pos3;
 	struct s_rt_shape	*next;
 }		t_rt_shape;
 

@@ -26,15 +26,23 @@ void	hook(void *arg)
 		mlx->img->instances[0].x += 5;
 
 	static int toggle = 1;
+	static int toggle2 = 0;
 	if (toggle)
 	{
+		if (rt->scene.lights->pos1.x == 200)
+			toggle = 0;
+		else
+		{
+			rt->scene.lights->pos1.x+=5;
+			rt->scene.lights->pos1.z+=2;
+		}
 //		if (rt->scene.d == 100)
 //			toggle = 0;
 //		else
 //			rt->scene.d++;
-		if (rt->scene.origin.z == 1000)
+		if (rt->scene.origin.z == 1000 && toggle2)
 			toggle = 0;
-		else
+		else if (toggle2)
 		{
 			rt->scene.origin.z++;
 			rt->scene.origin.z++;
@@ -46,13 +54,20 @@ void	hook(void *arg)
 	}
 	else
 	{
+		if (rt->scene.lights->pos1.x == -200)
+			toggle = 1;
+		else
+		{
+			rt->scene.lights->pos1.x-=5;	
+			rt->scene.lights->pos1.z-=2;	
+		}
 //		if (rt->scene.d == 0)
 //			toggle = 1;
 //		else
 //			rt->scene.d--;
-		if (rt->scene.origin.z == -2000)
+		if (rt->scene.origin.z == -2000 && toggle2)
 			toggle = 1;
-		else
+		else if (toggle2)
 		{
 			rt->scene.origin.z--;
 			rt->scene.origin.z--;
@@ -78,8 +93,8 @@ int	main(void)
 	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
 
 //	printf("rgba 128/128/128/0: %X\n", color_to_int((t_color){97, 97, 97, 255}));
-	rt_putpixel(0, 0, color_to_int((t_color){255, 255, 255, 255}), &rt);
-
+	// rt_putpixel(0, 0, color_to_int((t_color){255, 255, 255, 255}), &rt);
+	// render_scene(&rt);
 	mlx_image_to_window(rt.mlx.mlx, rt.mlx.img, 0, 0);
 	mlx_loop_hook(rt.mlx.mlx, &hook, &rt);
 	mlx_loop(rt.mlx.mlx);

@@ -23,15 +23,15 @@ t_err	rt_mlx_init(t_mlx *mlx)
 
 void	init_temp_scene(t_minirt *rt)
 {
-	rt->scene.origin = (t_vector){0, 0, -1998};
+	rt->scene.origin = (t_vector){0, 0, -1000};
 	rt->scene.shapes = new_sphere(250, (t_vector){0, -100, 800}, (t_color){255, 0, 0, 255});//RED
 	rt->scene.shapes->next = new_sphere(250, (t_vector){200, 0, 900}, (t_color){0, 0, 255, 255});//BLUE
 	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-300, -200, 1250}, (t_color){0, 255, 0, 255});//GREEN
 	rt->scene.shapes->next->next->next = new_sphere(350, (t_vector){250, -350, 900}, (t_color){255, 255, 0, 255});//YELLOW
 
-	rt->scene.ambient_ligth = new_ambient_light(0.4, (t_color){255 ,255 ,255 ,255});
-	rt->scene.lights = new_point_light(0.6, (t_position){-50, -180, 100}, (t_color){255 ,255 ,255 ,255});
-	rt->scene.lights->next = new_point_light(0.2, (t_position){100, -100, 150}, (t_color){255 ,255 ,255 ,255});
+	rt->scene.ambient_ligth = new_ambient_light(0.05, (t_color){255 ,255 ,255 ,255});
+	rt->scene.lights = new_point_light(0.8, (t_vector){-50, 280, 100}, (t_color){255 ,255 ,255 ,255});
+	// rt->scene.lights->next = new_point_light(0.2, (t_vector){100, 100, 150}, (t_color){255 ,255 ,255 ,255});
 	// printf("ambient:%f\n", rt->scene.ambient_ligth.ratio);
 }
 
@@ -42,8 +42,8 @@ t_err	rt_init(t_minirt *rt)
 	err = rt_mlx_init(&rt->mlx);
 	rt->scene.resolution_x = WIDTH;
 	rt->scene.resolution_y = HEIGHT;
-	rt->scene.viewport_x = WIDTH + 1998;
-	rt->scene.viewport_y = HEIGHT + 1998;
+	rt->scene.viewport_x = WIDTH;
+	rt->scene.viewport_y = HEIGHT;
 	rt->scene.d = WIDTH;
 	init_temp_scene(rt);
 

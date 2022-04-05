@@ -57,8 +57,7 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_scene scene
 	intensity = scene.ambient_ligth.ratio;
 	while (scene.lights)
 	{
-		l = substract_vector(scene.lights->vector, p);
-		scene.lights = scene.lights->next;
+		l = substract_vector(scene.lights->pos1, p);
 		n_dot_l = dot_product(n, l);
 		if (n_dot_l > 0)
 			intensity += scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l)));
@@ -74,7 +73,7 @@ t_color	precalculate_light(t_rt_shape *shape, t_vector o, t_vector d, double clo
 
 	p = multip_vector(d, closest_t);
 	p = add_vector(p, o);
-	n = substract_vector(p, shape->vector);
+	n = substract_vector(p, shape->pos1);
 	n = multip_vector(n, (double)1 / sqrt(dot_product(n, n)));
 	return (calculate_light(shape, p, n, scene));
 }
