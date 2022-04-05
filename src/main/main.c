@@ -28,17 +28,33 @@ void	hook(void *arg)
 	static int toggle = 1;
 	if (toggle)
 	{
-		if (rt->scene.d == 20)
+//		if (rt->scene.d == 100)
+//			toggle = 0;
+//		else
+//			rt->scene.d++;
+		if (rt->scene.origin.z == 0)
 			toggle = 0;
 		else
-			rt->scene.d++;
+		{
+			rt->scene.origin.z++;
+			rt->scene.viewport_x--;
+			rt->scene.viewport_y--;
+		}
 	}
 	else
 	{
-		if (rt->scene.d == 1)
+//		if (rt->scene.d == 0)
+//			toggle = 1;
+//		else
+//			rt->scene.d--;
+		if (rt->scene.origin.z == -700)
 			toggle = 1;
 		else
-			rt->scene.d--;
+		{
+			rt->scene.origin.z--;
+			rt->scene.viewport_x++;
+			rt->scene.viewport_y++;
+		}
 	}
 	render_scene(rt);
 }

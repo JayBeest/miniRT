@@ -2,6 +2,7 @@
 # define DATATYPES_H
 
 # include <MLX42.h>
+# include <ansi_color_codes.h>
 
 typedef enum e_bool
 {
@@ -68,9 +69,9 @@ typedef struct s_vector
 
 typedef struct s_position
 {
-	int	x;
-	int	y;
-	int	z;
+	double	x;
+	double	y;
+	double	z;
 }			t_position;
 
 typedef struct s_rt_shape
@@ -107,6 +108,7 @@ typedef struct s_mlx
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	mlx_image_t *text;
 }		t_mlx;
 
 typedef struct s_minirt

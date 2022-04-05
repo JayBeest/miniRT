@@ -5,6 +5,10 @@
 #include <intersect.h>
 #include <math.h>
 
+#include <stdio.h>
+#include <libft.h>
+#include <unistd.h>
+
 t_vector	canvas_to_viewport(int x, int y, t_scene scene)
 {
 	t_vector	v;
@@ -37,7 +41,7 @@ t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 		}
 		if (quad_result.t2 > 1 && quad_result.t2 < 1000 && quad_result.t2 < closest_t)
 		{
-			closest_t = quad_result.t1;
+			closest_t = quad_result.t2;
 			closest_sphere = node;
 		}
 		node = node->next;
@@ -69,5 +73,11 @@ t_err	render_scene(t_minirt *rt)
 		}
 		x++;
 	}
+//	char	*str = ft_calloc(20, 1);
+//	sprintf(str, "d to c: %d", rt->scene.d);
+//	mlx_delete_image(rt->mlx.mlx, rt->mlx.text);
+//	rt->mlx.text = mlx_put_string(rt->mlx.mlx, str, 20, 20);
+//	ft_free_str(&str);
+//	usleep(500000);
 	return (NO_ERR);
 }
