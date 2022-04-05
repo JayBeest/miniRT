@@ -23,6 +23,8 @@ t_err	rt_mlx_init(t_mlx *mlx)
 
 void	init_temp_scene(t_minirt *rt)
 {
+	t_rt_shape	*node;
+
 	rt->scene.origin = (t_vector){0, 0, 0};
 	rt->scene.shapes = new_sphere(250, (t_vector){0, -100, 800}, (t_color){255, 0, 0, 255});//RED
 	rt->scene.shapes->next = new_sphere(250, (t_vector){200, 0, 900}, (t_color){0, 0, 255, 255});//BLUE
