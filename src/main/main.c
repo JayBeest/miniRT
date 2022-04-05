@@ -32,12 +32,15 @@ void	hook(void *arg)
 //			toggle = 0;
 //		else
 //			rt->scene.d++;
-		if (rt->scene.origin.z == 0)
+		if (rt->scene.origin.z == 1000)
 			toggle = 0;
 		else
 		{
 			rt->scene.origin.z++;
+			rt->scene.origin.z++;
 			rt->scene.viewport_x--;
+			rt->scene.viewport_x--;
+			rt->scene.viewport_y--;
 			rt->scene.viewport_y--;
 		}
 	}
@@ -47,12 +50,15 @@ void	hook(void *arg)
 //			toggle = 1;
 //		else
 //			rt->scene.d--;
-		if (rt->scene.origin.z == -700)
+		if (rt->scene.origin.z == -2000)
 			toggle = 1;
 		else
 		{
 			rt->scene.origin.z--;
+			rt->scene.origin.z--;
 			rt->scene.viewport_x++;
+			rt->scene.viewport_x++;
+			rt->scene.viewport_y++;
 			rt->scene.viewport_y++;
 		}
 	}

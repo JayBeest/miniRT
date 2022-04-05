@@ -23,7 +23,7 @@ t_err	rt_mlx_init(t_mlx *mlx)
 
 void	init_temp_scene(t_minirt *rt)
 {
-	rt->scene.origin = (t_vector){0, 0, 0};
+	rt->scene.origin = (t_vector){0, 0, -1998};
 	rt->scene.shapes = new_sphere(250, (t_vector){0, -100, 800}, (t_color){255, 0, 0, 255});//RED
 	rt->scene.shapes->next = new_sphere(250, (t_vector){200, 0, 900}, (t_color){0, 0, 255, 255});//BLUE
 	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-300, -200, 1250}, (t_color){0, 255, 0, 255});//GREEN
@@ -41,8 +41,8 @@ t_err	rt_init(t_minirt *rt)
 	err = rt_mlx_init(&rt->mlx);
 	rt->scene.resolution_x = WIDTH;
 	rt->scene.resolution_y = HEIGHT;
-	rt->scene.viewport_x = WIDTH;
-	rt->scene.viewport_y = HEIGHT;
+	rt->scene.viewport_x = WIDTH + 1998;
+	rt->scene.viewport_y = HEIGHT + 1998;
 	rt->scene.d = WIDTH;
 	init_temp_scene(rt);
 

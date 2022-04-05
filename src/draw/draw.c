@@ -28,26 +28,45 @@ t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 	t_rt_shape		*closest_sphere;
 	t_quad_result	quad_result;
 
+	int				edge;
+	int				d_edge;
+
 	closest_sphere = NULL;
 	node = scene.shapes;
 	closest_t = INFINITY;
 	while (node)
 	{
+		edge = 0;
+		d_edge = 0;
 		quad_result = intersect_shape(o, d, node);
-		if (quad_result.t1 > 1 && quad_result.t1 < 1000 && quad_result.t1 < closest_t)
+		if (quad_result.t1 < 1000 && quad_result.t1 > 1 && quad_result.t1 == quad_result.t2)
 		{
+			printf(RED "edge found!!\n" RESET);
 			closest_t = quad_result.t1;
 			closest_sphere = node;
+			edge = 1;
 		}
-		if (quad_result.t2 > 1 && quad_result.t2 < 1000 && quad_result.t2 < closest_t)
+		else
 		{
-			closest_t = quad_result.t2;
-			closest_sphere = node;
+			if (quad_result.t1 > 1 && quad_result.t1 < 1000 && quad_result.t1 < closest_t)
+			{
+				closest_t = quad_result.t1;
+				closest_sphere = node;
+				edge = 0;
+			}
+			if (quad_result.t2 > 1 && quad_result.t2 < 1000 && quad_result.t2 < closest_t)
+			{
+				closest_t = quad_result.t2;
+				closest_sphere = node;
+				edge = 0;
+			}
 		}
 		node = node->next;
 	}
 	if (!closest_sphere)
 		return ((t_color){0, 0, 0, 255});
+	if (edge)
+		return ((t_color){0, 255, 204, 255});
 	return (closest_sphere->color);
 }
 
