@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/26 21:28:00 by jcorneli      #+#    #+#                 */
+/*   Updated: 2022/04/26 21:28:01 by jcorneli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <libft.h>
 #include <datatypes.h>
-#include <main.h>
 #include <init.h>
-#include <draw.h>
-
+#include <parser.h>
+#include <render.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -26,7 +37,7 @@ void	hook(void *arg)
 		mlx->img->instances[0].x += 5;
 
 	static int toggle = 1;
-	static int toggle2 = 0;
+//	static int toggle2 = 1;
 	if (toggle)
 	{
 		if (rt->scene.lights->pos1.x == 200)
@@ -34,53 +45,45 @@ void	hook(void *arg)
 		else
 		{
 			rt->scene.lights->pos1.x+=5;
-			rt->scene.lights->pos1.z+=2;
-		}
-//		if (rt->scene.d == 100)
-//			toggle = 0;
-//		else
-//			rt->scene.d++;
-		if (rt->scene.origin.z == 1000 && toggle2)
-			toggle = 0;
-		else if (toggle2)
-		{
-			rt->scene.origin.z++;
-			rt->scene.origin.z++;
-			rt->scene.viewport_x--;
-			rt->scene.viewport_x--;
-			rt->scene.viewport_y--;
-			rt->scene.viewport_y--;
+			rt->scene.lights->pos1.z+=5;
 		}
 	}
 	else
 	{
-		if (rt->scene.lights->pos1.x == -200)
+		if (rt->scene.lights->pos1.x == -400)
 			toggle = 1;
 		else
 		{
 			rt->scene.lights->pos1.x-=5;	
-			rt->scene.lights->pos1.z-=2;	
-		}
-//		if (rt->scene.d == 0)
-//			toggle = 1;
-//		else
-//			rt->scene.d--;
-		if (rt->scene.origin.z == -2000 && toggle2)
-			toggle = 1;
-		else if (toggle2)
-		{
-			rt->scene.origin.z--;
-			rt->scene.origin.z--;
-			rt->scene.viewport_x++;
-			rt->scene.viewport_x++;
-			rt->scene.viewport_y++;
-			rt->scene.viewport_y++;
+			rt->scene.lights->pos1.z-=5;
 		}
 	}
+//	if (toggle2)
+//	{
+//		if (rt->scene.origin.z == -1450)
+//			toggle2 = 0;
+//		rt->scene.origin.z++;
+//		rt->scene.origin.z++;
+////		rt->scene.viewport_x--;
+////		rt->scene.viewport_x--;
+////		rt->scene.viewport_y--;
+////		rt->scene.viewport_y--;
+//	}
+//	else
+//	{
+//		if (rt->scene.d == -5000)
+//			toggle2 = 1;
+//		rt->scene.origin.z--;
+//		rt->scene.origin.z--;
+////		rt->scene.viewport_x++;
+////		rt->scene.viewport_x++;
+////		rt->scene.viewport_y++;
+////		rt->scene.viewport_y++;
+//	}
 	render_scene(rt);
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
 	t_minirt	rt;
 	t_err		err;
@@ -89,7 +92,12 @@ int	main(void)
 	err = rt_init(&rt);
 	if (err != NO_ERR)
 		return (err);
-
+	if (argc == 2)
+		err = parse_input(argv[1], &rt.scene);
+	else
+		err = init_temp_scene(&rt);
+	if (err != NO_ERR)
+		return (err);
 	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
 
 //	printf("rgba 128/128/128/0: %X\n", color_to_int((t_color){97, 97, 97, 255}));

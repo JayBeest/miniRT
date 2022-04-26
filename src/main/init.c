@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/26 21:27:52 by jcorneli      #+#    #+#                 */
+/*   Updated: 2022/04/26 21:27:53 by jcorneli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <libft.h>
 #include <datatypes.h>
-#include <main.h>
 #include <parser_utils.h>
 #include <shapes.h>
 #include <lights.h>
@@ -21,18 +32,20 @@ t_err	rt_mlx_init(t_mlx *mlx)
 	return (NO_ERR);
 }
 
-void	init_temp_scene(t_minirt *rt)
+t_err	init_temp_scene(t_minirt *rt)
 {
-	rt->scene.origin = (t_vector){0, 0, -1000};
+	rt->scene.origin = (t_vector){0, 0, -1200};
 	rt->scene.shapes = new_sphere(250, (t_vector){0, -100, 800}, (t_color){255, 0, 0, 255});//RED
 	rt->scene.shapes->next = new_sphere(250, (t_vector){200, 0, 900}, (t_color){0, 0, 255, 255});//BLUE
 	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-300, -200, 1250}, (t_color){0, 255, 0, 255});//GREEN
-	rt->scene.shapes->next->next->next = new_sphere(350, (t_vector){250, -350, 900}, (t_color){255, 255, 0, 255});//YELLOW
+	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){250, -350, 900}, (t_color){255, 255, 0, 255});//YELLOW
+//	rt->scene.shapes->next->next->next->next = new_plane((t_vector){-500, 0, 12500}, (t_vector){0, 0, 0.8}, (t_color){255, 255, 0, 255});
 
-	rt->scene.ambient_ligth = new_ambient_light(0.05, (t_color){255 ,255 ,255 ,255});
-	rt->scene.lights = new_point_light(0.8, (t_vector){-50, 280, 100}, (t_color){255 ,255 ,255 ,255});
-	// rt->scene.lights->next = new_point_light(0.2, (t_vector){100, 100, 150}, (t_color){255 ,255 ,255 ,255});
+	rt->scene.ambient_ligth = new_ambient_light(0.15, (t_color){255 ,255 ,255 ,255});
+	rt->scene.lights = new_point_light(0.6, (t_vector){-50, 180, 100}, (t_color){255 ,255 ,255 ,255});
+//	 rt->scene.lights->next = new_point_light(0.2, (t_vector){100, 100, 150}, (t_color){255 ,255 ,255 ,255});
 	// printf("ambient:%f\n", rt->scene.ambient_ligth.ratio);
+	return (NO_ERR);
 }
 
 t_err	rt_init(t_minirt *rt)
@@ -42,10 +55,8 @@ t_err	rt_init(t_minirt *rt)
 	err = rt_mlx_init(&rt->mlx);
 	rt->scene.resolution_x = WIDTH;
 	rt->scene.resolution_y = HEIGHT;
-	rt->scene.viewport_x = WIDTH;
-	rt->scene.viewport_y = HEIGHT;
+	rt->scene.viewport_x = WIDTH * 1.5;
+	rt->scene.viewport_y = HEIGHT * 1.5;
 	rt->scene.d = WIDTH;
-	init_temp_scene(rt);
-
 	return (err);
 }

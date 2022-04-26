@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   intersect.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/26 21:28:58 by jcorneli      #+#    #+#                 */
+/*   Updated: 2022/04/26 21:28:59 by jcorneli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <datatypes.h>
 #include <intersect.h>
 #include <vector_utils.h>
@@ -22,10 +34,30 @@ t_quad_result	intersect_sphere(t_vector o, t_vector d, t_rt_shape *shape)
 	return (result);
 }
 
+t_quad_result	intersect_plane(t_vector o, t_vector d, t_rt_shape *shape)
+{
+	t_quad_result	result;
+	double			denominator;
+
+	result.t2 = INFINITY;
+	denominator	= dot_product(shape->vector, d);
+	if (denominator > 1e-6)
+	{
+		result.t1 = dot_product(substract_vector(shape->pos1, o), shape->vector) / denominator;
+		if (result.t1 <= 0)
+			result.t1 = INFINITY;
+		return (result);
+	}
+	result.t1 = INFINITY;
+	return (result);
+}
+
+
 t_quad_result	intersect_shape(t_vector o, t_vector d, t_rt_shape *shape)
 {
 	static t_intersect	function_pointers[NO_OBJECT] = {
-			[SPHERE] = intersect_sphere
+			[SPHERE] = intersect_sphere,
+			[PLANE] = intersect_plane
 	};
 	return (function_pointers[shape->type](o, d, shape));
 }

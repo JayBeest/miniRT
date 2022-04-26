@@ -1,8 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   datatypes.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/26 21:28:12 by jcorneli      #+#    #+#                 */
+/*   Updated: 2022/04/26 21:28:13 by jcorneli      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DATATYPES_H
 # define DATATYPES_H
 
 # include <MLX42.h>
 # include <ansi_color_codes.h>
+
+# define WIDTH 1024
+# define HEIGHT 1024
 
 typedef enum e_bool
 {
@@ -116,5 +131,19 @@ typedef struct s_minirt
 	t_mlx	mlx;
 	t_scene	scene;
 }		t_minirt;
+
+typedef struct s_mult_pixel
+{
+	int	min_x;
+	int	max_x;
+	int	min_y;
+	int	max_y;
+}		t_mult_pixel;
+
+typedef struct s_multipt
+{
+	t_minirt	*rt;
+	int 		id;
+}		t_pthr_arg;
 
 #endif

@@ -9,9 +9,13 @@ PARSER_DIR	=	src/parser/
 PARSER_FILE	=	parser.c \
 				parser_utils.c
 
+RENDER_DIR	=	src/render/
+RENDER_FILE	=	render.c \
+				render_utils.c \
+				lighting.c
+
 DRAW_DIR	=	src/draw/
-DRAW_FILE	=	draw.c \
-				draw_utils.c \
+DRAW_FILE	=	draw_utils.c \
 				vector_utils.c \
 				intersect.c
 
@@ -22,8 +26,8 @@ OBJECT_FILE	=	shapes.c \
 DEBUG_DIR	=	src/test_debug/
 DEBUG_FILE	=	rt_debug.c
 
-SRC_DIRS	=	$(MAIN_DIR) $(PARSER_DIR) $(DRAW_DIR) $(OBJECT_DIR) $(DEBUG_DIR)
-SRC			=	$(MAIN_FILE) $(PARSER_FILE) $(DRAW_FILE) $(OBJECT_FILE) $(DEBUG_FILE)
+SRC_DIRS	=	$(MAIN_DIR) $(PARSER_DIR) $(RENDER_DIR) $(DRAW_DIR) $(OBJECT_DIR) $(DEBUG_DIR)
+SRC			=	$(MAIN_FILE) $(PARSER_FILE) $(RENDER_FILE) $(DRAW_FILE) $(OBJECT_FILE) $(DEBUG_FILE)
 
 OBJ_DIR		=	obj/
 OBJ 		=	$(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
@@ -66,7 +70,7 @@ $(NAME): $(OBJ)
 	@echo "\033[35mBuilding MLX42\033[0m"
 	@make -C MLX42
 	@echo
-	@echo "\033[36mLinking binary file:     $@ 💫📺\033[0m"
+	@echo "\033[36mLinking binary file:     $@ 📺 💫\033[0m"
 	@echo
 	@$(CC) $^ $(LIB) $(CFLAGS) -o $@
 
