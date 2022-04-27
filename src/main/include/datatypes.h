@@ -16,8 +16,8 @@
 # include <MLX42.h>
 # include <ansi_color_codes.h>
 
-# define WIDTH 1024
-# define HEIGHT 1024
+# define WIDTH 512
+# define HEIGHT 512
 
 typedef enum e_bool
 {
