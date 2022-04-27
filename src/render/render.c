@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:30:02 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/26 21:30:03 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 14:47:30 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,53 +20,49 @@
 #include <pthread.h>
 #include <stdio.h>
 
-t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
+t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vector d)
 {
-	t_rt_shape		*node;
-	double			closest_t;
-	t_rt_shape		*closest_sphere;
-	t_quad_result	quad_result;
+	t_intersect_result	intersect_result;
+	t_quad_result		quad_result;
 
-	int				edge;
-//	int				d_edge;
 
-	closest_sphere = NULL;
-	node = scene.shapes;
-	closest_t = INFINITY;
+	intersect_result.closest_shape = NULL;
+	intersect_result.closest_t = INFINITY;
 	while (node)
 	{
-		edge = 0;
-//		d_edge = 0;
 		quad_result = intersect_shape(o, d, node);
 		if (quad_result.t1 < 1000 && quad_result.t1 > 1 && quad_result.t1 == quad_result.t2)
 		{
-			printf(RED "edge found!!\n" RESET);
-			closest_t = quad_result.t1;
-			closest_sphere = node;
-			edge = 1;
+			// printf(RED "edge found!!\n" RESET);
+			intersect_result.closest_t = quad_result.t1;
+			intersect_result.closest_shape = node;
 		}
 		else
 		{
-			if (quad_result.t1 > 1 && quad_result.t1 < 1000 && quad_result.t1 < closest_t)
+			if (quad_result.t1 > 1 && quad_result.t1 < 1000 && quad_result.t1 < intersect_result.closest_t)
 			{
-				closest_t = quad_result.t1;
-				closest_sphere = node;
-				edge = 0;
+				intersect_result.closest_t = quad_result.t1;
+				intersect_result.closest_shape = node;
 			}
-			if (quad_result.t2 > 1 && quad_result.t2 < 1000 && quad_result.t2 < closest_t)
+			if (quad_result.t2 > 1 && quad_result.t2 < 1000 && quad_result.t2 < intersect_result.closest_t)
 			{
-				closest_t = quad_result.t2;
-				closest_sphere = node;
-				edge = 0;
+				intersect_result.closest_t = quad_result.t2;
+				intersect_result.closest_shape = node;
 			}
 		}
 		node = node->next;
 	}
-	if (!closest_sphere)
+	return (intersect_result);
+}
+
+t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
+{
+	t_intersect_result	intersect_result;
+
+	intersect_result = get_closest_intersection(scene.shapes, o, d);
+	if (!intersect_result.closest_shape)
 		return ((t_color){0, 0, 0, 255});
-	if (edge)
-		return ((t_color){0, 255, 204, 255});
-	return (precalculate_light(closest_sphere, o, d, closest_t, scene));
+	return (precalculate_light(intersect_result.closest_shape, o, d, intersect_result.closest_t, scene));
 }
 
 t_mult_pixel	get_multi_pix(t_scene scene, int id)

@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:28:12 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/26 21:28:13 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 14:46:47 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,13 @@ typedef struct s_rt_shape
 	t_vector			pos3;
 	struct s_rt_shape	*next;
 }		t_rt_shape;
+
+typedef struct s_intersect_result
+{
+	t_rt_shape	*closest_shape;
+	double		closest_t;
+
+}		t_intersect_result;
 
 typedef struct s_scene
 {
