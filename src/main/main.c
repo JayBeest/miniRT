@@ -37,7 +37,6 @@ void	hook(void *arg)
 		mlx->img->instances[0].x += 5;
 
 	static int toggle = 1;
-//	static int toggle2 = 1;
 	if (toggle)
 	{
 		if (rt->scene.lights->pos1.x == 200)
@@ -58,28 +57,6 @@ void	hook(void *arg)
 			rt->scene.lights->pos1.z-=5;
 		}
 	}
-//	if (toggle2)
-//	{
-//		if (rt->scene.origin.z == -1450)
-//			toggle2 = 0;
-//		rt->scene.origin.z++;
-//		rt->scene.origin.z++;
-////		rt->scene.viewport_x--;
-////		rt->scene.viewport_x--;
-////		rt->scene.viewport_y--;
-////		rt->scene.viewport_y--;
-//	}
-//	else
-//	{
-//		if (rt->scene.d == -5000)
-//			toggle2 = 1;
-//		rt->scene.origin.z--;
-//		rt->scene.origin.z--;
-////		rt->scene.viewport_x++;
-////		rt->scene.viewport_x++;
-////		rt->scene.viewport_y++;
-////		rt->scene.viewport_y++;
-//	}
 	render_scene(rt);
 }
 
@@ -93,7 +70,10 @@ int	main(int argc, char *argv[])
 	if (err != NO_ERR)
 		return (err);
 	if (argc == 2)
+	{
 		err = parse_input(argv[1], &rt.scene);
+		return (EXIT_SUCCESS);
+	}
 	else
 		err = init_temp_scene(&rt);
 	if (err != NO_ERR)
