@@ -16,10 +16,10 @@
 # include <MLX42.h>
 # include <ansi_color_codes.h>
 
-# define WIDTH 512
-# define HEIGHT 512
+# define WIDTH 768
+# define HEIGHT 768
 
-# define T_MAX 10000
+# define T_MAX 100000
 
 typedef enum e_bool
 {
@@ -70,6 +70,8 @@ typedef enum e_rt_shape_type
 	CYLINDER,
 	CONE,
 	CUBE,
+	DIRECT_L,
+	POINT_L,
 	NO_OBJECT
 }		t_rt_shape_type;
 
@@ -134,7 +136,7 @@ typedef struct s_scene
 	int			viewport_y;
 	int 		d;
 	t_vector	origin;
-	t_rt_shape	ambient_ligth;
+	t_rt_shape	ambient_light;
 	t_rt_shape	*cameras;
 	t_rt_shape	*lights;
 	t_rt_shape	*shapes;

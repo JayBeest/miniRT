@@ -15,5 +15,6 @@
 
 t_rt_shape	new_ambient_light(double ratio, t_color color);
 t_rt_shape	*new_point_light(double ratio, t_vector pos, t_color color);
+t_rt_shape	*new_direct_light(double ratio, t_vector vector, t_color color);
 
 #endif

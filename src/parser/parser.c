@@ -108,7 +108,7 @@ t_err	parse_line(char *line, t_scene *scene)
 		printf("parsing line: %s$\n", line);
 		line = ft_skipspace(line);
 		if (ft_strncmp(line, "A ", 2) == 0)
-			return (parse_ambient(line + 2, &scene->ambient_ligth));
+			return (parse_ambient(line + 2, &scene->ambient_light));
 		else if (ft_strncmp(line, "C ", 2) == 0)
 			return (parse_camera(line + 2, scene));
 		else if (ft_strncmp(line, "L ", 2) == 0)

@@ -18,6 +18,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int g_scene_switch;
+int g_animate;
+
 void	hook(void *arg)
 {
 	t_minirt	*rt;
@@ -36,7 +39,8 @@ void	hook(void *arg)
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
 		mlx->img->instances[0].x += 5;
 
-	// goto skip_animation;
+	if (!g_animate)
+		goto skip_animation;
 	static int toggle = 1;
 	if (toggle)
 	{
@@ -70,7 +74,7 @@ void	hook(void *arg)
 	}
 	else
 	{
-		if (rt->scene.lights->next->pos1.y == -800)
+		if (rt->scene.lights->next->pos1.y == -400)
 			toggle2 = 1;
 		else
 		{
@@ -87,14 +91,24 @@ int	main(int argc, char *argv[])
 	t_minirt	rt;
 	t_err		err;
 
+	g_animate = 0;
 	ft_bzero(&rt, sizeof(rt));
 	err = rt_init(&rt);
 	if (err != NO_ERR)
 		return (err);
-	if (argc == 2)
+	g_scene_switch = 0;
+	if (argc > 1)
 	{
-		err = parse_input(argv[1], &rt.scene);
-		return (EXIT_SUCCESS);
+		if (ft_strncmp(argv[1], "-a", 3) == 0)
+			g_animate = 1;
+		else
+			g_scene_switch = 1;
+		if (g_scene_switch || (g_animate == 1 && argc > 2))
+			err = init_temp_scene2(&rt);
+		else
+			err = init_temp_scene(&rt);
+//		err = parse_input(argv[1], &rt.scene);
+//		return (EXIT_SUCCESS);
 	}
 	else
 		err = init_temp_scene(&rt);

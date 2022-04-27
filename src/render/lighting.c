@@ -28,11 +28,19 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 	double				r_dot_v;
 	t_intersect_result	shadow;
 
-	intensity = scene.ambient_ligth.ratio;
+	intensity = scene.ambient_light.ratio;
 	while (scene.lights)
 	{
-		l = substract_vector(scene.lights->pos1, p);
-		shadow = get_closest_intersection(scene.shapes, p, l, 0.001, T_MAX);
+		if (scene.lights->type == POINT_L)
+		{
+			l = substract_vector(scene.lights->pos1, p);
+			shadow = get_closest_intersection(scene.shapes, p, l, 0.001, 1);
+		}
+		else if (scene.lights->type == DIRECT_L)
+		{
+			l = scene.lights->vector;
+			shadow = get_closest_intersection(scene.shapes, p, l, 0.001, INFINITY);
+		}
 		if (shadow.closest_shape)
 		{
 			scene.lights = scene.lights->next;
