@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:28:00 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 15:54:34 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 16:03:19 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,25 @@ void	hook(void *arg)
 			rt->scene.lights->pos1.z-=5;
 		}
 	}
-	static int toggle2 = 1;
-	if (toggle2)
-	{
-		if (rt->scene.lights->next->pos1.y == 1500)
-			toggle2 = 0;
-		else
-		{
-			rt->scene.lights->next->pos1.y+=5;
-		}
-	}
-	else
-	{
-		if (rt->scene.lights->next->pos1.y == -1500)
-			toggle2 = 1;
-		else
-		{
-			rt->scene.lights->next->pos1.y-=5;	
-		}
-	}
+	// static int toggle2 = 1;
+	// if (toggle2)
+	// {
+	// 	if (rt->scene.lights->next->pos1.y == 1500)
+	// 		toggle2 = 0;
+	// 	else
+	// 	{
+	// 		rt->scene.lights->next->pos1.y+=5;
+	// 	}
+	// }
+	// else
+	// {
+	// 	if (rt->scene.lights->next->pos1.y == -1500)
+	// 		toggle2 = 1;
+	// 	else
+	// 	{
+	// 		rt->scene.lights->next->pos1.y-=5;
+	// 	}
+	// }
 	render_scene(rt);
 }
 

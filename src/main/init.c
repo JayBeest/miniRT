@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:27:52 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 15:53:43 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 16:03:46 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_err	init_temp_scene(t_minirt *rt)
 
 	rt->scene.ambient_ligth = new_ambient_light(0.1, (t_color){255 ,255 ,255 ,255});
 	rt->scene.lights = new_point_light(0.4, (t_vector){-50, 180, 100}, (t_color){255 ,255 ,255 ,255});
-	 rt->scene.lights->next = new_point_light(0.3, (t_vector){0, 0, 150}, (t_color){255 ,255 ,255 ,255});
+	//  rt->scene.lights->next = new_point_light(0.3, (t_vector){0, 0, 150}, (t_color){255 ,255 ,255 ,255});
 	// printf("ambient:%f\n", rt->scene.ambient_ligth.ratio);
 	return (NO_ERR);
 }
