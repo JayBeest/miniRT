@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   rt_debug.c                                         :+:    :+:            */
+/*   rt_debug.h                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/26 21:30:09 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 17:48:48 by jcorneli      ########   odam.nl         */
+/*   Created: 2022/04/27 17:50:03 by jcorneli      #+#    #+#                 */
+/*   Updated: 2022/04/27 17:50:34 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <datatypes.h>
-#include <stdio.h>
+#ifndef RT_DEBUG_H
+# define RT_DEBUG_H
 
-void    print_vector(t_vector vec)
-{
-    printf("vector -- x:%f y:%f z:%f\n", vec.x, vec.y, vec.z);
-}
+void    print_vector(t_vector vec);
+
+#endif

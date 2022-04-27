@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:27:52 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 17:07:42 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 17:13:28 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_err	init_temp_scene(t_minirt *rt)
 	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-450, -180, 1250}, (t_color){102, 255, 153, 255}, 500);//GREEN
 	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){100, -330, 900}, (t_color){255, 255, 77, 255}, 50);//YELLOW
 	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-250, -1200, 6000}, (t_color){241, 156, 187, 255}, 100);//PINK
-	// rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){0, -100, 0}, (t_vector){0, 0, 0.8}, (t_color){255, 255, 0, 255}, 100);
+	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-10, 0, 0}, (t_vector){0, 1, 0}, (t_color){255, 255, 0, 255}, 100);
 
 	rt->scene.ambient_ligth = new_ambient_light(0.1, (t_color){255 ,255 ,255 ,255});
 	rt->scene.lights = new_point_light(0.3, (t_vector){-50, 180, 100}, (t_color){255 ,255 ,255 ,255});

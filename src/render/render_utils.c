@@ -6,11 +6,12 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:29:58 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/26 21:29:59 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 17:29:53 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <datatypes.h>
+#include <vector_utils.h>
 
 t_vector	canvas_to_viewport(int x, int y, t_scene scene)
 {
@@ -19,6 +20,7 @@ t_vector	canvas_to_viewport(int x, int y, t_scene scene)
 	v.x = x * scene.viewport_x / scene.resolution_x;
 	v.y = y * scene.viewport_y / scene.resolution_y;
 	v.z = scene.d;
+	// v = multip_vector(v, 1 / dot_product(v, v));
 	return (v);
 }
 

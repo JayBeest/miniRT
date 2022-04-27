@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:28:58 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/26 21:28:59 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 18:03:48 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <intersect.h>
 #include <vector_utils.h>
 #include <math.h>
+
+#include <stdio.h>
 
 t_quad_result	intersect_sphere(t_vector o, t_vector d, t_rt_shape *shape)
 {
@@ -44,8 +46,10 @@ t_quad_result	intersect_plane(t_vector o, t_vector d, t_rt_shape *shape)
 	if (denominator > 1e-6)
 	{
 		result.t1 = dot_product(substract_vector(shape->pos1, o), shape->vector) / denominator;
-		if (result.t1 <= 0)
+		if (result.t1 < 0)
 			result.t1 = INFINITY;
+		if (result.t1 > 0.5 && result.t1 < INFINITY)
+			printf("[intersect_plane] t1: %f\n", result.t1);
 		return (result);
 	}
 	result.t1 = INFINITY;
