@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:28:00 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 18:50:52 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 21:00:25 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,46 +36,49 @@ void	hook(void *arg)
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
 		mlx->img->instances[0].x += 5;
 
-	// static int toggle = 1;
-	// if (toggle)
-	// {
-	// 	if (rt->scene.lights->pos1.x == 250)
-	// 		toggle = 0;
-	// 	else
-	// 	{
-	// 		rt->scene.lights->pos1.x+=5;
-	// 		rt->scene.lights->pos1.z+=5;
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (rt->scene.lights->pos1.x == -350)
-	// 		toggle = 1;
-	// 	else
-	// 	{
-	// 		rt->scene.lights->pos1.x-=5;	
-	// 		rt->scene.lights->pos1.z-=5;
-	// 	}
-	// }
-	// static int toggle2 = 1;
-	// if (toggle2)
-	// {
-	// 	if (rt->scene.lights->next->pos1.y == 200)
-	// 		toggle2 = 0;
-	// 	else
-	// 	{
-	// 		rt->scene.lights->next->pos1.y+=10;
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (rt->scene.lights->next->pos1.y == -200)
-	// 		toggle2 = 1;
-	// 	else
-	// 	{
-	// 		rt->scene.lights->next->pos1.y-=10;
-	// 	}
-	// }
+	// goto skip_animation;
+	static int toggle = 1;
+	if (toggle)
+	{
+		if (rt->scene.lights->pos1.x == 250)
+			toggle = 0;
+		else
+		{
+			rt->scene.lights->pos1.x+=5;
+			rt->scene.lights->pos1.z+=5;
+		}
+	}
+	else
+	{
+		if (rt->scene.lights->pos1.x == -350)
+			toggle = 1;
+		else
+		{
+			rt->scene.lights->pos1.x-=5;	
+			rt->scene.lights->pos1.z-=5;
+		}
+	}
+	static int toggle2 = 1;
+	if (toggle2)
+	{
+		if (rt->scene.lights->next->pos1.y == 800)
+			toggle2 = 0;
+		else
+		{
+			rt->scene.lights->next->pos1.y+=10;
+		}
+	}
+	else
+	{
+		if (rt->scene.lights->next->pos1.y == -800)
+			toggle2 = 1;
+		else
+		{
+			rt->scene.lights->next->pos1.y-=10;
+		}
+	}
+	goto skip_animation;
+	skip_animation:
 	render_scene(rt);
 }
 
