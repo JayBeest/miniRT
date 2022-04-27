@@ -25,6 +25,15 @@ typedef enum e_bool
 	TRUE
 }		t_bool;
 
+typedef enum e_parse_type
+{
+	A,
+	C,
+	L,
+	SP,
+	PL,
+	CY
+}		t_parse_type;
 
 typedef enum e_err
 {
@@ -32,8 +41,10 @@ typedef enum e_err
 	MALLOC_F,
 	MLX_INIT_F,
 	MLX_NEW_IMG_F,
+	PARSE_F,
 	INVALID_ARG,
 	INVALID_FILE,
+	INVALID_OBJ,
 	PIXEL_OOB
 }		t_err;
 
@@ -98,6 +109,7 @@ typedef struct s_rt_shape
 	double				size;
 	int					radius;
 	t_color				color;
+	int 				specular;
 	t_vector			vector;
 	t_vector			pos1;
 	t_vector			pos2;
