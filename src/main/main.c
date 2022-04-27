@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:28:00 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 16:03:19 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 16:36:06 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	hook(void *arg)
 	static int toggle = 1;
 	if (toggle)
 	{
-		if (rt->scene.lights->pos1.x == 200)
+		if (rt->scene.lights->pos1.x == 250)
 			toggle = 0;
 		else
 		{
@@ -49,7 +49,7 @@ void	hook(void *arg)
 	}
 	else
 	{
-		if (rt->scene.lights->pos1.x == -400)
+		if (rt->scene.lights->pos1.x == -350)
 			toggle = 1;
 		else
 		{
@@ -57,25 +57,25 @@ void	hook(void *arg)
 			rt->scene.lights->pos1.z-=5;
 		}
 	}
-	// static int toggle2 = 1;
-	// if (toggle2)
-	// {
-	// 	if (rt->scene.lights->next->pos1.y == 1500)
-	// 		toggle2 = 0;
-	// 	else
-	// 	{
-	// 		rt->scene.lights->next->pos1.y+=5;
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (rt->scene.lights->next->pos1.y == -1500)
-	// 		toggle2 = 1;
-	// 	else
-	// 	{
-	// 		rt->scene.lights->next->pos1.y-=5;
-	// 	}
-	// }
+	static int toggle2 = 1;
+	if (toggle2)
+	{
+		if (rt->scene.lights->next->pos1.y == 200)
+			toggle2 = 0;
+		else
+		{
+			rt->scene.lights->next->pos1.y+=10;
+		}
+	}
+	else
+	{
+		if (rt->scene.lights->next->pos1.y == -200)
+			toggle2 = 1;
+		else
+		{
+			rt->scene.lights->next->pos1.y-=10;
+		}
+	}
 	render_scene(rt);
 }
 

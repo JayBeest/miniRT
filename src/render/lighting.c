@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:29:55 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 15:49:11 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 16:38:18 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 		l = substract_vector(scene.lights->pos1, p);
 		shadow = get_closest_intersection(shape, p, l, 0.001, T_MAX);
 		if (shadow.closest_shape)
+		{
+			scene.lights = scene.lights->next;
 			continue ;
+		}
 		n_dot_l = dot_product(n, l);
-		// if (n_dot_l)
+		// if (n_dot_l > 0)
 			intensity += scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l)));
 		if (scene.lights->specular != -1)
 		{
@@ -45,7 +48,7 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 			r = multip_vector(r, dot_product(n, l));
 			r = substract_vector(r, l);
 			r_dot_v = dot_product(r, v);
-			// if (r_dot_v)
+			// if (r_dot_v < 0)
 				intensity += intensity * pow(r_dot_v / (sqrt(dot_product(r, r)) * sqrt(dot_product(v, v))), shape->specular);
 		}
 		scene.lights = scene.lights->next;
