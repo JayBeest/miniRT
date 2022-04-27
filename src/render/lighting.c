@@ -16,7 +16,7 @@
 #include <vector_utils.h>
 #include <draw_utils.h>
 
-t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_scene scene)
+t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector s, t_scene scene)
 {
 	double		intensity;
 //	int			i;
@@ -24,6 +24,7 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_scene scene
 	double		n_dot_l;
 
 //	i = 0;
+	(void)s;
 	intensity = scene.ambient_ligth.ratio;
 	while (scene.lights)
 	{
@@ -31,6 +32,10 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_scene scene
 		n_dot_l = dot_product(n, l);
 		if (n_dot_l > 0)
 			intensity += scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l)));
+		if (scene.lights->specular != -1)
+		{
+
+		}
 		scene.lights = scene.lights->next;
 	}
 	return (multip_color(intensity, shape->color));
@@ -40,10 +45,12 @@ t_color	precalculate_light(t_rt_shape *shape, t_vector o, t_vector d, double clo
 {
 	t_vector	p;
 	t_vector	n;
+	t_vector	s;
 
 	p = multip_vector(d, closest_t);
 	p = add_vector(p, o);
 	n = substract_vector(p, shape->pos1);
 	n = multip_vector(n, (double)1 / sqrt(dot_product(n, n)));
-	return (calculate_light(shape, p, n, scene));
+	s = multip_vector(d, -1);
+	return (calculate_light(shape, p, n, s, scene));
 }
