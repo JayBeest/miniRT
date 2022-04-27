@@ -6,12 +6,13 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:29:55 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 14:18:45 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 15:49:11 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <datatypes.h>
+#include <render.h>
 #include <render_utils.h>
 #include <vector_utils.h>
 #include <draw_utils.h>
@@ -20,16 +21,20 @@
 
 t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t_scene scene)
 {
-	double		intensity;
-	t_vector	r;
-	t_vector	l;
-	double		n_dot_l;
-	double		r_dot_v;
+	double				intensity;
+	t_vector			r;
+	t_vector			l;
+	double				n_dot_l;
+	double				r_dot_v;
+	t_intersect_result	shadow;
 
 	intensity = scene.ambient_ligth.ratio;
 	while (scene.lights)
 	{
 		l = substract_vector(scene.lights->pos1, p);
+		shadow = get_closest_intersection(shape, p, l, 0.001, T_MAX);
+		if (shadow.closest_shape)
+			continue ;
 		n_dot_l = dot_product(n, l);
 		// if (n_dot_l)
 			intensity += scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l)));
