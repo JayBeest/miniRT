@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:28:12 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 16:38:21 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/04/27 18:53:02 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define WIDTH 512
 # define HEIGHT 512
 
-# define T_MAX 1000
+# define T_MAX 10000
 
 typedef enum e_bool
 {
