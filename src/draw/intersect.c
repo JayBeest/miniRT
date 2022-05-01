@@ -43,13 +43,11 @@ t_quad_result	intersect_plane(t_vector o, t_vector d, t_rt_shape *shape)
 
 	result.t2 = INFINITY;
 	denominator	= dot_product(shape->vector, d);
-	if (denominator > 1e-6)
+	if (denominator > EPSILON)
 	{
 		result.t1 = dot_product(substract_vector(shape->pos1, o), shape->vector) / denominator;
 		if (result.t1 < 0)
 			result.t1 = INFINITY;
-		// if (result.t1 > 0.5 && result.t1 < INFINITY)
-			// printf("[intersect_plane] t1: %f\n", result.t1);
 		return (result);
 	}
 	result.t1 = INFINITY;

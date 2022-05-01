@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <math.h>
+#include <libft.h>
 #include <datatypes.h>
 #include <render.h>
 #include <render_utils.h>
@@ -28,18 +29,19 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 	double				r_dot_v;
 	t_intersect_result	shadow;
 
+	ft_bzero(&shadow, sizeof(t_intersect_result));
 	intensity = scene.ambient_light.ratio;
 	while (scene.lights)
 	{
 		if (scene.lights->type == POINT_L)
 		{
-			l = substract_vector(scene.lights->pos1, p);
-			shadow = get_closest_intersection(scene.shapes, p, l, 0.001, 1);
+			l = substract_vector(scene.lights->pos1, n); /// should be p (weirdly was, swapped)
+			shadow = get_closest_intersection(scene.shapes, p, l, EPSILON, 1, shape); /// 1 or T_MAX??
 		}
 		else if (scene.lights->type == DIRECT_L)
 		{
 			l = scene.lights->vector;
-			shadow = get_closest_intersection(scene.shapes, p, l, 0.001, INFINITY);
+			shadow = get_closest_intersection(scene.shapes, p, l, EPSILON, INFINITY, shape);
 		}
 		if (shadow.closest_shape)
 		{
@@ -47,16 +49,19 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 			continue ;
 		}
 		n_dot_l = dot_product(n, l);
-		if (n_dot_l >= 0)
+		if (n_dot_l > 0)
 			intensity += scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l)));
 		if (scene.lights->specular != -1)
 		{
 			// printf("shape_id: %d specular: %d\n", shape->id, shape->specular);
+			l = substract_vector(scene.lights->pos1, p); ///
+
 			r = multip_vector(n, 2);
 			r = multip_vector(r, dot_product(n, l));
 			r = substract_vector(r, l);
 			r_dot_v = dot_product(r, v);
-			if (r_dot_v)
+//			(void)r_dot_v;
+			if (r_dot_v > 0)
 				intensity += intensity * pow(r_dot_v / (sqrt(dot_product(r, r)) * sqrt(dot_product(v, v))), shape->specular);
 		}
 		scene.lights = scene.lights->next;
@@ -78,5 +83,5 @@ t_color	precalculate_light(t_rt_shape *closest_shape, t_vector o, t_vector d, do
 		v = multip_vector(d, -1);
 	else
 		v = (t_vector){0, 0, 0};
-	return (calculate_light(closest_shape, p, n, v, scene));
+	return (calculate_light(closest_shape, n, p, v, scene));
 }

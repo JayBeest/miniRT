@@ -20,7 +20,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vector d, double t_min, double t_max)
+t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vector d, double t_min, double t_max, t_rt_shape *self)
 {
 	t_intersect_result	intersect_result;
 	t_quad_result		quad_result;
@@ -29,6 +29,12 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 	intersect_result.closest_t = INFINITY;
 	while (node)
 	{
+		(void)self;
+		if (node == self)
+		{
+			node = node->next;
+			continue ;
+		}
 		quad_result = intersect_shape(o, d, node);
 		// if (quad_result.t1 < 1000 && quad_result.t1 > 1 && quad_result.t1 == quad_result.t2)
 		// {
@@ -58,7 +64,7 @@ t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 {
 	t_intersect_result	intersect_result;
 
-	intersect_result = get_closest_intersection(scene.shapes, o, d, 1, T_MAX);
+	intersect_result = get_closest_intersection(scene.shapes, o, d, 1, INFINITY, NULL);
 	if (!intersect_result.closest_shape)
 		return ((t_color){0, 0, 0, 255});
 	return (precalculate_light(intersect_result.closest_shape, o, d, intersect_result.closest_t, scene));

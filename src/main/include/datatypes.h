@@ -20,6 +20,7 @@
 # define HEIGHT 768
 
 # define T_MAX 100000
+# define EPSILON 1e-6
 
 typedef enum e_bool
 {
