@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:28:00 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 21:00:25 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/05/02 13:43:26 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 int g_scene_switch;
 int g_animate;
 int g_frame_pause;
+int	g_scene;
+
 
 void	hook(void *arg)
 {
@@ -34,9 +36,9 @@ void	hook(void *arg)
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx->mlx);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_UP))
-		mlx->img->instances[0].y -= 5;
+		init_temp_scene2(rt);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_DOWN))
-		mlx->img->instances[0].y += 5;
+		init_temp_scene(rt);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_LEFT))
 		mlx->img->instances[0].x -= 5;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
@@ -120,6 +122,7 @@ int	main(int argc, char *argv[])
 
 	g_animate = 0;
 	g_frame_pause = 0;
+	g_scene = 1;
 	ft_bzero(&rt, sizeof(rt));
 	err = rt_init(&rt);
 	if (err != NO_ERR)
@@ -129,12 +132,14 @@ int	main(int argc, char *argv[])
 	{
 		if (ft_strncmp(argv[1], "-a", 3) == 0)
 			g_animate = 1;
-		else
-			g_scene_switch = 1;
-		if (g_scene_switch || (g_animate == 1 && argc > 2))
-			err = init_temp_scene2(&rt);
-		else
+		// else
+		// 	g_scene_switch = 1;
+		// if (g_scene_switch || (g_animate == 1 && argc > 2))
+		// 	err = init_temp_scene2(&rt);
+		if (g_scene == 1)
 			err = init_temp_scene(&rt);
+		else
+			err = init_temp_scene2(&rt);
 //		err = parse_input(argv[1], &rt.scene);
 //		return (EXIT_SUCCESS);
 	}

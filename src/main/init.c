@@ -6,10 +6,11 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:27:52 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/05/02 13:10:01 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/05/02 13:45:57 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <libft.h>
 #include <datatypes.h>
 #include <parser_utils.h>
@@ -32,6 +33,28 @@ t_err	rt_mlx_init(t_mlx *mlx)
 	return (NO_ERR);
 }
 
+void	clear_scene(t_scene *scene)
+{
+	t_rt_shape	*node;
+	t_rt_shape	*next;
+
+	node = scene->shapes;
+	while (node)
+	{
+		next = node->next;
+		free(node);
+		node = next;
+	}
+	node = scene->lights;
+	while (node)
+	{
+		next = node->next;
+		free(node);
+		node = next;
+	}
+	free (&scene->ambient_light);
+}
+
 t_err	init_temp_scene(t_minirt *rt)
 {
 	rt->scene.origin = (t_vector){-50, 0, -1200};
@@ -40,7 +63,7 @@ t_err	init_temp_scene(t_minirt *rt)
 	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-450, -210, 1250}, (t_color){102, 255, 153, 255}, 500);//GREEN
 	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){100, -360, 900}, (t_color){255, 255, 77, 255}, 1500);//YELLOW
 	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-280, -1200, 6000}, (t_color){241, 156, 187, 255}, 100);//PINK
-//	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-1, -630, 1000}, (t_vector){-0.1, -0.8, 0.1}, (t_color){255, 255, 255, 255}, 100);
+	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-1, -630, 1000}, (t_vector){-0.1, -0.8, 0.1}, (t_color){255, 255, 255, 255}, 100);
 
 	rt->scene.ambient_light = new_ambient_light(0.15, (t_color){255 , 0 , 255 , 255});
 	rt->scene.lights = new_point_light(0.4, (t_vector){-50, 180, 200}, (t_color){255 ,255 ,13 ,255});
