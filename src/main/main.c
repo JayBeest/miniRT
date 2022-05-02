@@ -97,7 +97,7 @@ void	hook(void *arg)
 	}
 	else
 	{
-		if (rt->scene.lights->next->pos1.y == 25)
+		if (rt->scene.lights->next->pos1.y == 30)
 			toggle2 = 1;
 		else
 		{
