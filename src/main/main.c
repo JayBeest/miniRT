@@ -73,28 +73,28 @@ void	hook(void *arg)
 		else
 		{
 			rt->scene.lights->pos1.x+=15;
-			rt->scene.lights->pos1.z+=10;
+			rt->scene.lights->pos1.z+=7;
 		}
 	}
 	else
 	{
-		if (rt->scene.lights->pos1.x == -350)
+		if (rt->scene.lights->pos1.x == -395)
 			toggle = 1;
 		else
 		{
 			rt->scene.lights->pos1.x-=15;
-			rt->scene.lights->pos1.z-=10;
+			rt->scene.lights->pos1.z-=7;
 		}
 	}
 	static int toggle2 = 1;
 	if (toggle2)
 	{
-		if (rt->scene.lights->next->pos1.y == 250)
+		if (rt->scene.lights->next->pos1.y == 295)
 			toggle2 = 0;
 		else
 		{
 			rt->scene.lights->next->pos1.y+=2;
-			rt->scene.lights->next->pos1.x-=5;
+			rt->scene.lights->next->pos1.x-=3;
 		}
 	}
 	else
@@ -104,7 +104,7 @@ void	hook(void *arg)
 		else
 		{
 			rt->scene.lights->next->pos1.y-=2;
-			rt->scene.lights->next->pos1.x+=5;
+			rt->scene.lights->next->pos1.x+=3;
 		}
 	}
 

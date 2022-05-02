@@ -52,7 +52,7 @@ void	clear_scene(t_scene *scene)
 		free(node);
 		node = next;
 	}
-	free (&scene->ambient_light);
+//	free (&scene->ambient_light);
 }
 
 t_err	init_temp_scene(t_minirt *rt)
@@ -63,7 +63,7 @@ t_err	init_temp_scene(t_minirt *rt)
 	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-450, -210, 1250}, (t_color){102, 255, 153, 255}, 500);//GREEN
 	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){100, -360, 900}, (t_color){255, 255, 77, 255}, 1500);//YELLOW
 	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-280, -1200, 6000}, (t_color){241, 156, 187, 255}, 100);//PINK
-	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-1, -630, 1000}, (t_vector){-0.1, -0.8, 0.1}, (t_color){255, 255, 255, 255}, 100);
+//	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-1, -630, 1000}, (t_vector){-0.1, -0.8, 0.1}, (t_color){255, 255, 255, 255}, 100);
 
 	rt->scene.ambient_light = new_ambient_light(0.15, (t_color){255 , 0 , 255 , 255});
 	rt->scene.lights = new_point_light(0.4, (t_vector){-50, 180, 200}, (t_color){255 ,255 ,13 ,255});
@@ -84,7 +84,7 @@ t_err	init_temp_scene2(t_minirt *rt)
 	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-280, -1200, 6000}, (t_color){241, 156, 187, 255}, 100);//PINK
 //	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-1, -630, 1000}, (t_vector){-0.1, -0.8, 0.1}, (t_color){255, 255, 255, 255}, 100);
 
-	rt->scene.ambient_light = new_ambient_light(0.15, (t_color){255 , 0 , 255 , 255});
+	rt->scene.ambient_light = new_ambient_light(0.05, (t_color){255 , 0 , 255 , 255});
 	rt->scene.lights = new_point_light(0.4, (t_vector){-50, 180, 200}, (t_color){87 ,255 ,255 ,255});
 	rt->scene.lights->next = new_point_light(0.35, (t_vector){200, 50, 100}, (t_color){255 ,255 ,56 ,255});
 	rt->scene.lights->next->next = new_direct_light(0.55, (t_vector){2.5, 4.7, 3}, (t_color){255, 255 ,255 ,255});
