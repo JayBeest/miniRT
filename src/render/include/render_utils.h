@@ -14,6 +14,6 @@
 # define RENDER_UTILS_H
 
 t_vector	canvas_to_viewport(int x, int y, t_scene scene);
-t_color		multip_color(double intensity, t_color color);
+t_color		multip_color(t_color_intensity intensity, t_color color);
 
 #endif

@@ -84,6 +84,14 @@ typedef struct s_color
 	unsigned char 	a;
 }			t_color;
 
+typedef struct s_color_intensity
+{
+	double	r;
+	double	g;
+	double	b;
+	double	a;
+}			t_color_intensity;
+
 typedef struct s_pixel
 {
 	int 	x;

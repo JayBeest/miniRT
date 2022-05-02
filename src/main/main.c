@@ -18,8 +18,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <unistd.h>
+
 int g_scene_switch;
 int g_animate;
+int g_frame_pause;
 
 void	hook(void *arg)
 {
@@ -38,52 +41,76 @@ void	hook(void *arg)
 		mlx->img->instances[0].x -= 5;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
 		mlx->img->instances[0].x += 5;
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_A))
+	{
+
+		if (g_animate)
+			g_animate = 0;
+		else
+			g_animate = 1;
+		usleep(100);
+	}
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_EQUAL))
+	{
+		if (g_frame_pause < 100)
+			g_frame_pause++;
+	}
+	if (mlx_is_key_down(mlx->mlx, MLX_KEY_MINUS))
+	{
+		if (g_frame_pause > 0)
+			g_frame_pause--;
+	}
 
 	if (!g_animate)
 		goto skip_animation;
 	static int toggle = 1;
 	if (toggle)
 	{
-		if (rt->scene.lights->pos1.x == 550)
+		if (rt->scene.lights->pos1.x == 850)
 			toggle = 0;
 		else
 		{
-			rt->scene.lights->pos1.x+=10;
+			rt->scene.lights->pos1.x+=15;
 			rt->scene.lights->pos1.z+=10;
 		}
 	}
 	else
 	{
-		if (rt->scene.lights->pos1.x == -550)
+		if (rt->scene.lights->pos1.x == -350)
 			toggle = 1;
 		else
 		{
-			rt->scene.lights->pos1.x-=10;
+			rt->scene.lights->pos1.x-=15;
 			rt->scene.lights->pos1.z-=10;
 		}
 	}
 	static int toggle2 = 1;
 	if (toggle2)
 	{
-		if (rt->scene.lights->next->pos1.y == 800)
+		if (rt->scene.lights->next->pos1.y == 250)
 			toggle2 = 0;
 		else
 		{
-			rt->scene.lights->next->pos1.y+=10;
+			rt->scene.lights->next->pos1.y+=2;
+			rt->scene.lights->next->pos1.x-=5;
 		}
 	}
 	else
 	{
-		if (rt->scene.lights->next->pos1.y == -450)
+		if (rt->scene.lights->next->pos1.y == 25)
 			toggle2 = 1;
 		else
 		{
-			rt->scene.lights->next->pos1.y-=10;
+			rt->scene.lights->next->pos1.y-=2;
+			rt->scene.lights->next->pos1.x+=5;
 		}
 	}
-	goto skip_animation;
-	skip_animation:
+
 	render_scene(rt);
+	if (g_frame_pause > 0)
+		usleep(g_frame_pause * 100000);
+	goto skip_animation;
+	skip_animation:;
 }
 
 int	main(int argc, char *argv[])
@@ -92,6 +119,7 @@ int	main(int argc, char *argv[])
 	t_err		err;
 
 	g_animate = 0;
+	g_frame_pause = 0;
 	ft_bzero(&rt, sizeof(rt));
 	err = rt_init(&rt);
 	if (err != NO_ERR)
@@ -115,7 +143,7 @@ int	main(int argc, char *argv[])
 	if (err != NO_ERR)
 		return (err);
 	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
-
+	render_scene(&rt);
 //	printf("rgba 128/128/128/0: %X\n", color_to_int((t_color){97, 97, 97, 255}));
 	// rt_putpixel(0, 0, color_to_int((t_color){255, 255, 255, 255}), &rt);
 	// render_scene(&rt);
