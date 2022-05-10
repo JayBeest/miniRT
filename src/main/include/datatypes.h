@@ -18,6 +18,7 @@
 
 # define WIDTH 768
 # define HEIGHT 768
+# define USLEEP_FPS 16666
 
 # define T_MAX 100000
 # define EPSILON 1e-6

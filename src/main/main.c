@@ -111,6 +111,8 @@ void	hook(void *arg)
 	render_scene(rt);
 	if (g_frame_pause > 0)
 		usleep(g_frame_pause * 100000);
+//	else
+//		usleep(USLEEP_FPS);
 	goto skip_animation;
 	skip_animation:;
 }
@@ -147,7 +149,7 @@ int	main(int argc, char *argv[])
 		err = init_temp_scene(&rt);
 	if (err != NO_ERR)
 		return (err);
-	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
+//	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
 	render_scene(&rt);
 //	printf("rgba 128/128/128/0: %X\n", color_to_int((t_color){97, 97, 97, 255}));
 	// rt_putpixel(0, 0, color_to_int((t_color){255, 255, 255, 255}), &rt);

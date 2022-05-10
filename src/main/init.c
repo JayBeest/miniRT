@@ -57,13 +57,13 @@ void	clear_scene(t_scene *scene)
 
 t_err	init_temp_scene(t_minirt *rt)
 {
-	int glossy = 20;
+#define GLOSSY_UN 20
 	rt->scene.origin = (t_vector){-50, 0, -1200};
-	rt->scene.shapes = new_sphere(250, (t_vector){-150, -50, 800}, (t_color){230, 0, 38, 255}, glossy);//RED
-	rt->scene.shapes->next = new_sphere(250, (t_vector){50, -10, 900}, (t_color){90, 187, 238, 255}, glossy);//BLUE
-	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-450, -210, 1250}, (t_color){102, 255, 153, 255}, glossy);//GREEN
-	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){100, -360, 900}, (t_color){255, 255, 77, 255}, glossy);//YELLOW
-	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-280, -1200, 6000}, (t_color){241, 156, 187, 255}, glossy);//PINK
+	rt->scene.shapes = new_sphere(250, (t_vector){-150, -50, 800}, (t_color){230, 0, 38, 255}, GLOSSY_UN);//RED
+	rt->scene.shapes->next = new_sphere(250, (t_vector){50, -10, 900}, (t_color){90, 187, 238, 255}, GLOSSY_UN);//BLUE
+	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-450, -210, 1250}, (t_color){102, 255, 153, 255}, GLOSSY_UN);//GREEN
+	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){100, -360, 900}, (t_color){255, 255, 77, 255}, GLOSSY_UN);//YELLOW
+	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-280, -1200, 6000}, (t_color){241, 156, 187, 255}, 80);//PINK
 //	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-1, -630, 1000}, (t_vector){-0.1, -0.8, 0.1}, (t_color){255, 255, 255, 255}, 100);
 
 	rt->scene.ambient_light = new_ambient_light(0.15, (t_color){255 , 196 , 215 , 255});
@@ -78,12 +78,13 @@ t_err	init_temp_scene(t_minirt *rt)
 
 t_err	init_temp_scene2(t_minirt *rt)
 {
+#define GLOSSY_DEU 6000
 	rt->scene.origin = (t_vector){-50, 0, -1200};
-	rt->scene.shapes = new_sphere(250, (t_vector){-150, -50, 800}, (t_color){230, 0, 38, 255}, 500);//RED
-	rt->scene.shapes->next = new_sphere(250, (t_vector){50, -10, 900}, (t_color){90, 187, 238, 255}, 300);//BLUE
-	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-450, -210, 1250}, (t_color){102, 255, 153, 255}, 500);//GREEN
-	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){100, -360, 900}, (t_color){255, 255, 77, 255}, 1500);//YELLOW
-	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-280, -1200, 6000}, (t_color){241, 156, 187, 255}, 100);//PINK
+	rt->scene.shapes = new_sphere(250, (t_vector){-150, -50, 800}, (t_color){230, 0, 38, 255}, 2000);//RED
+	rt->scene.shapes->next = new_sphere(250, (t_vector){50, -10, 900}, (t_color){90, 187, 238, 255}, 2000);//BLUE
+	rt->scene.shapes->next->next = new_sphere(600, (t_vector){-450, -210, 1250}, (t_color){102, 255, 153, 255}, 6000);//GREEN
+	rt->scene.shapes->next->next->next = new_sphere(380, (t_vector){100, -360, 900}, (t_color){255, 255, 77, 255}, 3000);//YELLOW
+	rt->scene.shapes->next->next->next->next = new_sphere(4000, (t_vector){-280, -1200, 6000}, (t_color){241, 156, 187, 255}, 8000);//PINK
 //	rt->scene.shapes->next->next->next->next->next = new_plane((t_vector){-1, -630, 1000}, (t_vector){-0.1, -0.8, 0.1}, (t_color){255, 255, 255, 255}, 100);
 
 	rt->scene.ambient_light = new_ambient_light(0.15, (t_color){255 , 128 , 255 , 255});
