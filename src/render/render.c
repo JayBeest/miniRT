@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:30:02 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/05/02 13:06:22 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/05/10 16:03:46 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 	while (node)
 	{
 		(void)self;
-//		if (node == self)
-//		{
-//			intersect_result.closest_t = INFINITY;
-//			intersect_result.closest_shape = self;
-//			node = node->next;
-//			continue ;
-//		}
+		if (node == self)
+		{
+			// intersect_result.closest_t = INFINITY;
+			// intersect_result.closest_shape = self;
+			node = node->next;
+			continue ;
+		}
 		quad_result = intersect_shape(o, d, node);
 		// if (quad_result.t1 < 1000 && quad_result.t1 > 1 && quad_result.t1 == quad_result.t2)
 		// {

@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:29:55 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 20:24:53 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/05/10 16:43:11 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 	double				r_dot_v;
 	t_intersect_result	shadow;
 
+	// (void)r_dot_v;
+	// (void)v;
+	// (void)r;
 	ft_bzero(&shadow, sizeof(t_intersect_result));
 	init_intensity(&intensity, scene.ambient_light.ratio, scene.ambient_light.color);
 	while (scene.lights)
@@ -71,11 +74,11 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 			l = scene.lights->vector;
 			shadow = get_closest_intersection(scene.shapes, p, l, EPSILON, INFINITY, shape);
 		}
-		if (shadow.closest_shape && shadow.closest_shape != shape)
-		{
-			scene.lights = scene.lights->next;
-			continue ;
-		}
+		// if (shadow.closest_shape && shadow.closest_shape != shape)
+		// {
+		// 	scene.lights = scene.lights->next;
+		// 	continue ;
+		// }
 		if (scene.lights->type == POINT_L)
 			l = ln;
 		n_dot_l = dot_product(n, l);
@@ -84,6 +87,8 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 			init_intensity(&intens_to_add, scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l))), scene.lights->color);
 			update_intensity(&intensity, intens_to_add, scene.lights->color);
 		}
+		// (void)lp;
+		// (void)ln;
 		if (scene.lights->specular != -1)
 		{
 			// printf("shape_id: %d specular: %d\n", shape->id, shape->specular);
