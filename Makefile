@@ -35,8 +35,13 @@ OBJ 		=	$(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
 INCL_DIRS	=	$(addsuffix 'include', $(SRC_DIRS)) MLX42/include/MLX42/
 INCLUDES	=	-Ilibft $(addprefix -I, $(INCL_DIRS))
 
-LIB			=	-Llibft -lft -L/Users/$(USER)/.brew/opt/glfw/lib/ -lglfw -LMLX42 -lmlx42
-# LIB			=	-Llibft -lft -L/opt/homebrew/opt/glfw/lib/ -lglfw -LMLX42 -lmlx42
+UNAME_P		=	$(shell uname -p)
+
+ifeq ($(UNAME_P), i386)
+	LIB			=	-Llibft -lft -L/Users/$(USER)/.brew/opt/glfw/lib/ -lglfw -LMLX42 -lmlx42
+else
+	LIB			=	-Llibft -lft -L/opt/homebrew/opt/glfw/lib/ -lglfw -LMLX42 -lmlx42
+endif
 
 CFLAGS		=	-Wall -Werror -Wextra -O3 #-g -fsanitize=address
 

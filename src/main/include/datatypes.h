@@ -18,6 +18,7 @@
 
 # define WIDTH 768
 # define HEIGHT 768
+# define USLEEP_FPS 16666
 
 # define T_MAX 100000
 # define EPSILON 1e-6
@@ -83,6 +84,14 @@ typedef struct s_color
 	unsigned char 	b;
 	unsigned char 	a;
 }			t_color;
+
+typedef struct s_color_intensity
+{
+	double	r;
+	double	g;
+	double	b;
+	double	a;
+}			t_color_intensity;
 
 typedef struct s_pixel
 {

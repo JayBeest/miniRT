@@ -6,7 +6,7 @@
 /*   By: jcorneli <jcorneli@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/26 21:30:02 by jcorneli      #+#    #+#                 */
-/*   Updated: 2022/04/27 15:47:49 by jcorneli      ########   odam.nl         */
+/*   Updated: 2022/05/02 13:06:22 by jcorneli      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 	while (node)
 	{
 		(void)self;
-		if (node == self)
-		{
-			node = node->next;
-			continue ;
-		}
+//		if (node == self)
+//		{
+//			intersect_result.closest_t = INFINITY;
+//			intersect_result.closest_shape = self;
+//			node = node->next;
+//			continue ;
+//		}
 		quad_result = intersect_shape(o, d, node);
 		// if (quad_result.t1 < 1000 && quad_result.t1 > 1 && quad_result.t1 == quad_result.t2)
 		// {
@@ -46,12 +48,18 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 		// {
 			if (quad_result.t1 > t_min && quad_result.t1 < t_max && quad_result.t1 < intersect_result.closest_t)
 			{
-				intersect_result.closest_t = quad_result.t1;
+				if (node == self)
+					intersect_result.closest_t = INFINITY;
+				else
+					intersect_result.closest_t = quad_result.t1;
 				intersect_result.closest_shape = node;
 			}
 			if (quad_result.t2 > t_min && quad_result.t2 < t_max && quad_result.t2 < intersect_result.closest_t)
 			{
-				intersect_result.closest_t = quad_result.t2;
+				if (node == self)
+					intersect_result.closest_t = INFINITY;
+				else
+					intersect_result.closest_t = quad_result.t2;
 				intersect_result.closest_shape = node;
 			}
 		// }
