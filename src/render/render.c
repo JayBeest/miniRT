@@ -48,17 +48,17 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 		// {
 			if (quad_result.t1 > t_min && quad_result.t1 < t_max && quad_result.t1 < intersect_result.closest_t)
 			{
-				if (node == self)
-					intersect_result.closest_t = INFINITY;
-				else
+//				if (node == self)
+//					intersect_result.closest_t = INFINITY;
+//				else
 					intersect_result.closest_t = quad_result.t1;
 				intersect_result.closest_shape = node;
 			}
 			if (quad_result.t2 > t_min && quad_result.t2 < t_max && quad_result.t2 < intersect_result.closest_t)
 			{
-				if (node == self)
-					intersect_result.closest_t = INFINITY;
-				else
+//				if (node == self)
+//					intersect_result.closest_t = INFINITY;
+//				else
 					intersect_result.closest_t = quad_result.t2;
 				intersect_result.closest_shape = node;
 			}

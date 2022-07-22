@@ -43,7 +43,7 @@ else
 	LIB			=	-Llibft -lft -L/opt/homebrew/opt/glfw/lib/ -lglfw -LMLX42 -lmlx42
 endif
 
-CFLAGS		=	-Wall -Werror -Wextra -O3 #-g -fsanitize=address
+CFLAGS		=	-Wall -Werror -Wextra -g #-O3 #-fsanitize=address
 
 CC			=	gcc
 

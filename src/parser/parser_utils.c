@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 
-t_rt_shape *new_rt_object(t_rt_shape_type type)
+t_rt_shape *new_rt_object(t_rt_obj_type type)
 {
 	t_rt_shape *obj;
 	
@@ -53,34 +53,54 @@ t_err	parse_ratio(char *line, double *ratio)
 	return (PARSE_F);
 }
 
-t_err	parse_color(char *line, t_color *color)
+int	get_color(char *str)
 {
 	int i;
+	int count;
+	int color;
 
 	i = 0;
-	while (ft_isdigit(line[i]))
+	count = ft_strlen(str);
+	if (count > 3 || count < 1)
+	{
+		printf("[get_color] too many args\n");
+		return (-1);
+	}
+	while (i < count)
+	{
+		if (!ft_isdigit(str[i]))
+		{
+			printf("[get_color] non digit?\n");
+			return (-1);
+		}
 		i++;
-//	if (i > 4)
-//		return (PARSE_F);
-	color->r = ft_atoi(line);
-	if (line[i] != ',')
+	}
+	color = ft_atoi(str);
+	if (color > 255 || color < 0)
+	{
+		printf("[get_color] rgb out of range (0-255)\n");
+		return (-1);
+	}
+	return (color);
+}
+
+t_err	parse_color(char *line, t_color *color)
+{
+	char	**split;
+
+	split = ft_split(line, ',');
+	if (!split)
+		return (MALLOC_F);
+	if (ft_count_split(split) != 3)
+	{
+		printf("[parse_color] argc err\n");
 		return (PARSE_F);
-	line = line + i + 1;
-	i = 0;
-	while (ft_isdigit(line[i]))
-		i++;
-//	if (i > 4)
-//		return (PARSE_F);
-	color->g = ft_atoi(line);
-	if (line[i] != ',')
-		return (PARSE_F);
-	line = line + i + 1;
-	i = 0;
-	while (ft_isdigit(line[i]))
-		i++;
-//	if (i > 4)
-//		return (PARSE_F);
-	color->b = ft_atoi(line);
+	}
+	color->r = get_color(split[0]);
+	color->g = get_color(split[1]);
+	color->b = get_color(split[2]);
 	color->a = 255;
+	if (color->r > 255 || color->g > 255 || color->b > 255)
+		return (PARSE_F);
 	return (NO_ERR);
 }

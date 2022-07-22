@@ -36,6 +36,8 @@ t_quad_result	intersect_sphere(t_vector o, t_vector d, t_rt_shape *shape)
 	return (result);
 }
 
+#define SMALLEST_T 10
+
 t_quad_result	intersect_plane(t_vector o, t_vector d, t_rt_shape *shape)
 {
 	t_quad_result	result;

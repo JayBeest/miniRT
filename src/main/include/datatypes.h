@@ -46,6 +46,7 @@ typedef enum e_err
 	MLX_INIT_F,
 	MLX_NEW_IMG_F,
 	PARSE_F,
+	EMPTY_LINE,
 	INVALID_ARG,
 	INVALID_FILE,
 	INVALID_OBJ,
@@ -65,17 +66,18 @@ typedef	struct s_quad_result
 	double	t2;
 }		t_quad_result;
 
-typedef enum e_rt_shape_type
+typedef enum e_rt_obj_type
 {
 	SPHERE,
 	PLANE,
 	CYLINDER,
 	CONE,
 	CUBE,
-	DIRECT_L,
-	POINT_L,
+	LIGHT_D,
+	LIGHT_P,
+	CAMERA,
 	NO_OBJECT
-}		t_rt_shape_type;
+}		t_rt_obj_type;
 
 typedef struct s_color
 {
@@ -117,7 +119,7 @@ typedef struct s_position
 typedef struct s_rt_shape
 {
 	int					id;
-	t_rt_shape_type		type;
+	t_rt_obj_type		type;
 	int 				fov;
 	double				ratio;
 	double				size;
@@ -138,18 +140,78 @@ typedef struct s_intersect_result
 
 }		t_intersect_result;
 
+typedef struct s_rt_ambient
+{
+	t_color	color;
+	double	ratio;
+	int		amount;
+}		t_rt_obj_ambient;
+
+typedef struct s_rt_obj_camera
+{
+	t_vector	position;
+	t_vector	orientation;
+	int			id;
+	int 		fov;
+}		t_rt_obj_camera;
+
+typedef struct s_rt_obj_light
+{
+	t_vector	position;
+	double		ratio;
+	t_color 	color;
+	int			id;
+}		t_rt_obj_light;
+
+typedef struct s_rt_obj_sphere
+{
+	t_vector	position;
+	double		radius;
+	t_color 	color;
+	int			specular;
+	int			id;
+}		t_rt_obj_sphere;
+
+typedef struct s_rt_obj_plane
+{
+	t_vector	position;
+	t_vector	orientation;
+	t_color 	color;
+	int			specular;
+	int			id;
+}		t_rt_obj_plane;
+
+typedef struct s_rt_obj_cylinder
+{
+	t_vector	position;
+	t_vector	orientation;
+	t_color 	color;
+	int			specular;
+	int			id;
+}		t_rt_obj_cylinder;
+
+typedef struct s_rt_object
+{
+	void			*obj;
+	t_rt_obj_type	type;
+	int 			amount;
+	int				set;
+}		t_rt_object;
+
 typedef struct s_scene
 {
-	int 		resolution_x;
-	int 		resolution_y;
-	int			viewport_x;
-	int			viewport_y;
-	int 		d;
-	t_vector	origin;
-	t_rt_shape	ambient_light;
-	t_rt_shape	*cameras;
-	t_rt_shape	*lights;
-	t_rt_shape	*shapes;
+	int 				resolution_x;
+	int 				resolution_y;
+	int					viewport_x;
+	int					viewport_y;
+	int 				d;
+	t_vector			origin;
+	t_rt_obj_ambient	ambient_light;
+	t_rt_object			cameras;
+	t_rt_object			lights;
+	t_rt_object			planes;
+	t_rt_object			spheres;
+	t_rt_object			cylinders;
 }		t_scene;
 
 typedef struct s_mlx

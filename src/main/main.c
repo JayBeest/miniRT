@@ -65,48 +65,48 @@ void	hook(void *arg)
 
 	if (!g_animate)
 		goto skip_animation;
-	static int toggle = 1;
-	if (toggle)
-	{
-		if (rt->scene.lights->pos1.x == 850)
-			toggle = 0;
-		else
-		{
-			rt->scene.lights->pos1.x+=15;
-			rt->scene.lights->pos1.z+=7;
-		}
-	}
-	else
-	{
-		if (rt->scene.lights->pos1.x == -395)
-			toggle = 1;
-		else
-		{
-			rt->scene.lights->pos1.x-=15;
-			rt->scene.lights->pos1.z-=7;
-		}
-	}
-	static int toggle2 = 1;
-	if (toggle2)
-	{
-		if (rt->scene.lights->next->pos1.y == 130)
-			toggle2 = 0;
-		else
-		{
-			rt->scene.lights->next->pos1.y+=1;
-			rt->scene.lights->next->pos1.x-=7;
-		}
-	}
-	else
-	{
-		if (rt->scene.lights->next->pos1.y == 30)
-			toggle2 = 1;
-		else
-		{
-			rt->scene.lights->next->pos1.y-=1;
-			rt->scene.lights->next->pos1.x+=7;
-		}
-	}
+//	static int toggle = 1;
+//	if (toggle)
+//	{
+//		if (rt->scene.lights->pos1.x == 850)
+//			toggle = 0;
+//		else
+//		{
+//			rt->scene.lights->pos1.x+=15;
+//			rt->scene.lights->pos1.z+=15;
+//		}
+//	}
+//	else
+//	{
+//		if (rt->scene.lights->pos1.x == -830)
+//			toggle = 1;
+//		else
+//		{
+//			rt->scene.lights->pos1.x-=15;
+//			rt->scene.lights->pos1.z-=15;
+//		}
+//	}
+//	static int toggle2 = 1;
+//	if (toggle2)
+//	{
+//		if (rt->scene.lights->next->pos1.y == 130)
+//			toggle2 = 0;
+//		else
+//		{
+//			rt->scene.lights->next->pos1.y+=1;
+//			rt->scene.lights->next->pos1.x-=7;
+//		}
+//	}
+//	else
+//	{
+//		if (rt->scene.lights->next->pos1.y == 30)
+//			toggle2 = 1;
+//		else
+//		{
+//			rt->scene.lights->next->pos1.y-=1;
+//			rt->scene.lights->next->pos1.x+=7;
+//		}
+//	}
 
 	render_scene(rt);
 	if (g_frame_pause > 0)
@@ -134,19 +134,29 @@ int	main(int argc, char *argv[])
 	{
 		if (ft_strncmp(argv[1], "-a", 3) == 0)
 			g_animate = 1;
-		// else
+		else
+			err = parse_input(argv[1], &rt.scene);
+		if (err != NO_ERR)
+		{
+			printf("parse error\n");
+			exit (2);
+		}
 		// 	g_scene_switch = 1;
 		// if (g_scene_switch || (g_animate == 1 && argc > 2))
 		// 	err = init_temp_scene2(&rt);
-		if (g_scene == 1)
-			err = init_temp_scene(&rt);
-		else
-			err = init_temp_scene2(&rt);
-//		err = parse_input(argv[1], &rt.scene);
+//		if (g_scene == 1)
+//			err = init_temp_scene(&rt);
+//		else
+//			err = init_temp_scene2(&rt);
+		if (err != NO_ERR)
+		{
+			printf("init error\n");
+			exit (3);
+		}
 //		return (EXIT_SUCCESS);
 	}
-	else
-		err = init_temp_scene(&rt);
+//	else
+//		err = init_temp_scene(&rt);
 	if (err != NO_ERR)
 		return (err);
 //	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
@@ -160,3 +170,28 @@ int	main(int argc, char *argv[])
 	mlx_terminate(rt.mlx.mlx);
 	return (EXIT_SUCCESS);
 }
+
+//void	printsplit(char **split)
+//{
+//	int	i;
+//
+//	i = 0;
+//	while (split[i])
+//	{
+//		printf("|%s|\n", split[i]);
+//		i++;
+//	}
+//}
+//
+//int	main(void)
+//{
+//	char **split;
+//	// char *line;
+//
+//	// line = strdup(" 4 ");
+//	split =	ft_split_isspace("4 ");
+//	// free(line);
+//	printsplit(split);
+//	ft_free_split(&split);
+//	return (1);
+//}

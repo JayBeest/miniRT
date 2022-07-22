@@ -66,7 +66,7 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 		t_vector ln = substract_vector(scene.lights->pos1, n);
 		if (scene.lights->type == POINT_L)
 		{
-			l = ln;
+			l = lp;
 			shadow = get_closest_intersection(scene.shapes, p, l, EPSILON, 1, shape);
 		}
 		else if (scene.lights->type == DIRECT_L)
@@ -74,11 +74,11 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 			l = scene.lights->vector;
 			shadow = get_closest_intersection(scene.shapes, p, l, EPSILON, INFINITY, shape);
 		}
-		// if (shadow.closest_shape && shadow.closest_shape != shape)
-		// {
-		// 	scene.lights = scene.lights->next;
-		// 	continue ;
-		// }
+		 if (shadow.closest_shape && shadow.closest_shape != shape)
+		 {
+		 	scene.lights = scene.lights->next;
+		 	continue ;
+		 }
 		if (scene.lights->type == POINT_L)
 			l = ln;
 		n_dot_l = dot_product(n, l);
@@ -87,8 +87,11 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 			init_intensity(&intens_to_add, scene.lights->ratio * n_dot_l / (sqrt(dot_product(n, n)) * sqrt(dot_product(l, l))), scene.lights->color);
 			update_intensity(&intensity, intens_to_add, scene.lights->color);
 		}
-		// (void)lp;
-		// (void)ln;
+		(void)lp;
+		(void)ln;
+		(void)v;
+		(void)r;
+		(void)r_dot_v;
 		if (scene.lights->specular != -1)
 		{
 			// printf("shape_id: %d specular: %d\n", shape->id, shape->specular);

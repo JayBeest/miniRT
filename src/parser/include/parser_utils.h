@@ -13,7 +13,7 @@
 #ifndef PARSER_UTILS_H
 # define PARSER_UTILS_H
 
-t_rt_shape	*new_rt_object(t_rt_shape_type type);
+t_rt_shape	*new_rt_object(t_rt_obj_type type);
 char		*skip_float(char *line);
 t_err		parse_ratio(char *line, double *ratio);
 t_err		parse_color(char *line, t_color *color);
