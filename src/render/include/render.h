@@ -13,7 +13,7 @@
 #ifndef RENDER_H
 # define RENDER_H
 
-t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vector d, double t_min, double t_max, t_rt_shape *self);
+t_intersect_result	get_closest_intersection(t_rt_obj_shape *node, t_vector o, t_vector d, double t_min, double t_max, int self_id);
 t_err	            render_scene(t_minirt *rt);
 
 #endif

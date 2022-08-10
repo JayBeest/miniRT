@@ -13,6 +13,6 @@
 #ifndef LIGHTING_H
 #define LIGHTING_H
 
-t_color	precalculate_light(t_rt_shape *closest_shape, t_vector o, t_vector d, double closest_t, t_scene scene);
+t_color	precalculate_light(int closest_shape, t_vector o, t_vector d, double closest_t, t_scene scene);
 
 #endif

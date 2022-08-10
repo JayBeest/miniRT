@@ -20,24 +20,26 @@
 #include <pthread.h>
 #include <stdio.h>
 
-t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vector d, double t_min, double t_max, t_rt_shape *self)
+t_intersect_result	get_closest_intersection(t_scene scene, t_vector o, t_vector d, double t_min, double t_max, int self_id)
 {
 	t_intersect_result	intersect_result;
 	t_quad_result		quad_result;
+	int 				i;
 
-	intersect_result.closest_shape = NULL;
+	i = 0;
+	intersect_result.closest_shape_id = -1;
 	intersect_result.closest_t = INFINITY;
-	while (node)
+	while (i < scene.shapes.amount)
 	{
-		(void)self;
-		if (node == self)
-		{
-			// intersect_result.closest_t = INFINITY;
-			// intersect_result.closest_shape = self;
-			node = node->next;
-			continue ;
-		}
-		quad_result = intersect_shape(o, d, node);
+		(void)self_id;
+//		if (node == self)
+//		{
+//			// intersect_result.closest_t = INFINITY;
+//			// intersect_result.closest_shape = self;
+//			node = node->next;
+//			continue ;
+//		}
+		quad_result = intersect_shape(o, d, &(((t_rt_obj_shape *)(scene.shapes.obj))[i]));
 		// if (quad_result.t1 < 1000 && quad_result.t1 > 1 && quad_result.t1 == quad_result.t2)
 		// {
 		// 	// printf(RED "edge found!!\n" RESET);
@@ -52,7 +54,7 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 //					intersect_result.closest_t = INFINITY;
 //				else
 					intersect_result.closest_t = quad_result.t1;
-				intersect_result.closest_shape = node;
+				intersect_result.closest_shape_id = ((t_rt_obj_shape *)(scene.shapes.obj))[i].id;
 			}
 			if (quad_result.t2 > t_min && quad_result.t2 < t_max && quad_result.t2 < intersect_result.closest_t)
 			{
@@ -60,10 +62,11 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 //					intersect_result.closest_t = INFINITY;
 //				else
 					intersect_result.closest_t = quad_result.t2;
-				intersect_result.closest_shape = node;
+				intersect_result.closest_shape_id = ((t_rt_obj_shape *)(scene.shapes.obj))[i].id;
 			}
 		// }
-		node = node->next;
+//		node = node->next;
+		i++;
 	}
 	return (intersect_result);
 }
@@ -72,10 +75,10 @@ t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 {
 	t_intersect_result	intersect_result;
 
-	intersect_result = get_closest_intersection(scene.shapes, o, d, 1, INFINITY, NULL);
-	if (!intersect_result.closest_shape)
+	intersect_result = get_closest_intersection(scene, o, d, 1, INFINITY, -1);
+	if (intersect_result.closest_shape_id == -1)
 		return ((t_color){0, 0, 0, 255});
-	return (precalculate_light(intersect_result.closest_shape, o, d, intersect_result.closest_t, scene));
+	return (precalculate_light(intersect_result.closest_shape_id, o, d, intersect_result.closest_t, scene));
 }
 
 t_mult_pixel	get_multi_pix(t_scene scene, int id)

@@ -123,13 +123,13 @@ t_err	rt_init(t_minirt *rt)
 	err = rt_mlx_init(&rt->mlx);
 	rt->scene.resolution_x = WIDTH;
 	rt->scene.resolution_y = HEIGHT;
-	rt->scene.viewport_x = WIDTH;
-	rt->scene.viewport_y = HEIGHT;
-	rt->scene.d = HEIGHT;
+	rt->scene.viewport_x = 1;
+	rt->scene.viewport_y = 1;
+	rt->scene.d = 1;
 	rt->scene.cameras.type = CAMERA;
 	rt->scene.lights.type = LIGHT_P;
-	rt->scene.planes.type = PLANE;
-	rt->scene.spheres.type = SPHERE;
-	rt->scene.cylinders.type = CYLINDER;
+//	rt->scene.planes.type = PLANE;
+//	rt->scene.spheres.type = SPHERE;
+//	rt->scene.cylinders.type = CYLINDER;
 	return (err);
 }

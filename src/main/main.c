@@ -35,10 +35,10 @@ void	hook(void *arg)
 	mlx = &rt->mlx;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx->mlx);
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_UP))
-		init_temp_scene2(rt);
-	if (mlx_is_key_down(mlx->mlx, MLX_KEY_DOWN))
-		init_temp_scene(rt);
+//	if (mlx_is_key_down(mlx->mlx, MLX_KEY_UP))
+//		init_temp_scene2(rt);
+//	if (mlx_is_key_down(mlx->mlx, MLX_KEY_DOWN))
+//		init_temp_scene(rt);
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_LEFT))
 		mlx->img->instances[0].x -= 5;
 	if (mlx_is_key_down(mlx->mlx, MLX_KEY_RIGHT))
@@ -63,8 +63,8 @@ void	hook(void *arg)
 			g_frame_pause--;
 	}
 
-	if (!g_animate)
-		goto skip_animation;
+//	if (!g_animate)
+//		goto skip_animation;
 //	static int toggle = 1;
 //	if (toggle)
 //	{

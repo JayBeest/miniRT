@@ -29,7 +29,7 @@ t_rt_shape	*new_point_light(double ratio, t_vector pos, t_color color)
 	light = (t_rt_shape *)ft_calloc(sizeof(t_rt_shape), 1);
 	if (!light)
 		return (light);
-	light->type = POINT_L;
+	light->type = LIGHT_P;
 	light->ratio = ratio;
 	light->color = color;
 	light->pos1 = pos;
@@ -43,7 +43,7 @@ t_rt_shape	*new_direct_light(double ratio, t_vector vector, t_color color)
 	light = (t_rt_shape *)ft_calloc(sizeof(t_rt_shape), 1);
 	if (!light)
 		return (light);
-	light->type = DIRECT_L;
+	light->type = LIGHT_D;
 	light->ratio = ratio;
 	light->color = color;
 	light->vector = vector;

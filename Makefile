@@ -49,7 +49,7 @@ CC			=	gcc
 
 vpath %.c $(SRC_DIRS)
 
-$(info )
+# $(info )
 
 all: $(NAME)
 

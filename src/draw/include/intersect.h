@@ -13,8 +13,9 @@
 #ifndef INTERSECT_H
 # define INTERSECT_H
 
-typedef t_quad_result(*t_intersect)(t_vector, t_vector, t_rt_shape*);
+typedef t_quad_result(*t_intersect)(t_vector, t_vector, t_rt_obj_shape*);
 
-t_quad_result	intersect_shape(t_vector origin, t_vector viewport, t_rt_shape *shape);
+t_quad_result	intersect_sphere(t_vector o, t_vector d, t_rt_obj_shape *sphere);
+t_quad_result	intersect_shape(t_vector origin, t_vector viewport, t_rt_obj_shape *shape);
 
 #endif

@@ -37,9 +37,9 @@ t_err	parse_ambient(char **split, t_rt_obj_ambient *ambient)
 		printf("Ambient incorrect argc\n");
 		return (PARSE_F);
 	}
-	if (parse_ratio(split[1], &ambient->ratio) != NO_ERR)
+	if (get_ratio(split[1], &ambient->ratio) != NO_ERR)
 		return (PARSE_F);
-	if (parse_color(split[2], &ambient->color) != NO_ERR)
+	if (parse_rgb(split[2], &ambient->color) != NO_ERR)
 	{
 		printf("[parse_ambient] colour fail %s\n", split[2]);
 		return (PARSE_F);
@@ -47,123 +47,140 @@ t_err	parse_ambient(char **split, t_rt_obj_ambient *ambient)
 	return (NO_ERR);
 }
 
-t_err	get_pos(char *str, double *pos)
-{
-	int i;
-	int count;
-
-	i = 0;
-	count = ft_strlen(str);
-	if (count > 6 || count < 1)//meer??
-	{
-		printf("[get_pos] pos too large?\n");
-		return (-1);
-	}
-	while (i < count && ft_isdigit(str[i]))
-		i++;
-	if (i != count)
-	{
-		printf("[get_pos] nondigit?\n");
-		return (PARSE_F);
-	}
-	*pos = ft_atof(str);
-	return (NO_ERR);
-}
-
-t_err	parse_xyz(char *line, t_vector *pos)
-{
-	char	**split;
-
-	printf("[parse_xyz]\n");
-	if (!ft_isdigit(line[0]))
-		return (PARSE_F);
-	split = ft_split(line, ',');
-	if (!split)
-		return (MALLOC_F);
-	if (ft_count_split(split) != 3)
-	{
-		printf("[parse_xyz] argc err\n");
-		return (PARSE_F);
-	}
-	if (get_pos(split[0], &pos->x) != NO_ERR)
-		return (PARSE_F);
-	if (get_pos(split[1], &pos->y) != NO_ERR)
-		return (PARSE_F);
-	if (get_pos(split[2], &pos->z) != NO_ERR)
-		return (PARSE_F);
-	return (NO_ERR);
-}
-
-t_err	parse_camera(char **split, t_rt_object *object)
+t_err	parse_camera(char **split, t_rt_object *object, int camera_id)
 {
 	t_err		err;
 	static int	id;
 
-	err = parse_xyz(split[1], &(((t_rt_obj_camera *)(object->obj))[id]).position);
+	printf("[parse_camera]\n");
+	err = get_xyz(split[1], &(((t_rt_obj_camera *)(object->obj))[id]).position);
+	if (err != NO_ERR)
+		return (err);
+	err = get_xyz(split[2], &(((t_rt_obj_camera *)(object->obj))[id]).orientation);
+	if (err != NO_ERR)
+		return (err);
+	err = get_fov(split[3], &(((t_rt_obj_camera *)(object->obj))[id]).fov);
+	if (err != NO_ERR)
+		return (err);
+	(((t_rt_obj_camera *)(object->obj))[id]).id = camera_id;
 	id++;
 	return (err);
 }
 
-t_err	parse_light(char **split, t_scene *scene)
+t_err	parse_light(char **split, t_rt_object *object, int light_id)
 {
-	(void)scene;
-	(void)split;
+	t_err		err;
+	static int	id;
+
 	printf("[parse_light]\n");
-	return (NO_ERR);
+	err = get_xyz(split[1], &(((t_rt_obj_light *)(object->obj))[id]).position);
+	if (err != NO_ERR)
+		return (err);
+	err = get_ratio(split[2], &(((t_rt_obj_light *)(object->obj))[id]).ratio);
+	if (err != NO_ERR)
+		return (err);
+	err = parse_rgb(split[3], &(((t_rt_obj_light *)(object->obj))[id]).color);
+	if (err != NO_ERR)
+		return (err);
+	(((t_rt_obj_light *)(object->obj))[id]).id = light_id;
+	id++;
+	return (err);
 }
 
 t_err	parse_resolution(char **split, t_scene *scene)
 {
-	(void)scene;
-	(void)split;
+	t_err	err;
+
 	printf("[parse_resolution]\n");
-	return (NO_ERR);
+	err = get_resolution(split[1], &scene->resolution_x);
+	if (err != NO_ERR)
+		return (err);
+	return (get_resolution(split[2], &scene->resolution_y));
 }
 
-t_err	parse_sphere(char **split, t_scene *scene)
+t_err	parse_sphere(char **split, t_rt_object *object, int id)
 {
-	(void)scene;
-	(void)split;
+	t_err		err;
+
 	printf("[parse_sphere]\n");
-	return (NO_ERR);
+	err = get_xyz(split[1], &(((t_rt_obj_shape *)(object->obj))[id]).position);
+	if (err != NO_ERR)
+		return (err);
+	err = get_radius(split[2], &(((t_rt_obj_shape *)(object->obj))[id]).radius);
+	if (err != NO_ERR)
+		return (err);
+	err = parse_rgb(split[3], &(((t_rt_obj_shape *)(object->obj))[id]).color);
+	if (err != NO_ERR)
+		return (err);
+	(((t_rt_obj_shape *)(object->obj))[id]).id = id;
+	return (err);
 }
 
-t_err	parse_plane(char **split, t_scene *scene)
+t_err	parse_plane(char **split, t_rt_object *object, int id)
 {
-	(void)scene;
-	(void)split;
+	t_err		err;
+
 	printf("[parse_plane]\n");
-	return (NO_ERR);
+	err = get_xyz(split[1], &(((t_rt_obj_shape *)(object->obj))[id]).position);
+	if (err != NO_ERR)
+		return (err);
+	err = get_xyz(split[2], &(((t_rt_obj_shape *)(object->obj))[id]).orientation);
+	if (err != NO_ERR)
+		return (err);
+	err = parse_rgb(split[3], &(((t_rt_obj_shape *)(object->obj))[id]).color);
+	if (err != NO_ERR)
+		return (err);
+	(((t_rt_obj_shape *)(object->obj))[id]).id = id;
+	return (err);
 }
 
-t_err	parse_cylinder(char **split, t_scene *scene)
+t_err	parse_cylinder(char **split, t_rt_object *object, int id)
 {
-	(void)scene;
-	(void)split;
+	t_err		err;
+
 	printf("[parse_cylinder]\n");
-	return (NO_ERR);
+	err = get_xyz(split[1], &(((t_rt_obj_shape *)(object->obj))[id]).position);
+	if (err != NO_ERR)
+		return (err);
+	err = get_xyz(split[2], &(((t_rt_obj_shape *)(object->obj))[id]).orientation);
+	if (err != NO_ERR)
+		return (err);
+	err = get_pos(split[3], &(((t_rt_obj_shape *)(object->obj))[id]).radius);
+	if (err != NO_ERR)
+		return (err);
+	(((t_rt_obj_shape *)(object->obj))[id]).radius /= 2;
+	err = get_pos(split[4], &(((t_rt_obj_shape *)(object->obj))[id]).height);
+	if (err != NO_ERR)
+		return (err);
+	err = parse_rgb(split[5], &(((t_rt_obj_shape *)(object->obj))[id]).color);
+	if (err != NO_ERR)
+		return (err);
+	(((t_rt_obj_shape *)(object->obj))[id]).id = id;
+	return (err);
 }
 
 t_err	parse_type(char **split, t_scene *scene)
 {
-//	printf("parsing line: %s$\n", line);
+	static int	shape_id;
+	static int	light_id;
+	static int	camera_id;
+
 	if (ft_strncmp(split[0], "A", 2) == 0)
 		return (parse_ambient(split, &scene->ambient_light));
 	else if (ft_strncmp(split[0], "C", 2) == 0)
-		return (parse_camera(split, &scene->cameras));
+		return (parse_camera(split, &scene->cameras, camera_id++));
 	else if (ft_strncmp(split[0], "L", 2) == 0)
-		return (parse_light(split, scene));
+		return (parse_light(split, &scene->lights, light_id++));
 	else if (ft_strncmp(split[0], "R", 2) == 0)
 		return (parse_resolution(split, scene));
 	else if (ft_strncmp(split[0], "sp", 3) == 0)
-		return (parse_sphere(split, scene));
+		return (parse_sphere(split, &scene->shapes, shape_id++));
 	else if (ft_strncmp(split[0], "pl", 3) == 0)
-		return (parse_plane(split, scene));
+		return (parse_plane(split, &scene->shapes, shape_id++));
 	else if (ft_strncmp(split[0], "cy", 3) == 0)
-		return (parse_cylinder(split, scene));
+		return (parse_cylinder(split, &scene->shapes, shape_id++));
 	else
 		return (INVALID_OBJ);
-	return (NO_ERR);
 }
 
 t_err	parse_line(char *line, t_scene *scene)
@@ -215,11 +232,11 @@ t_err	add_count(char **split, t_scene *scene)
 	else if (ft_strncmp(split[0], "R", 2) == 0)
 		(void)scene->resolution_x; ///?!?! wat nu
 	else if (ft_strncmp(split[0], "sp", 3) == 0)
-		scene->spheres.amount++;
+		scene->shapes.amount++;
 	else if (ft_strncmp(split[0], "pl", 3) == 0)
-		scene->planes.amount++;
+		scene->shapes.amount++;
 	else if (ft_strncmp(split[0], "cy", 3) == 0)
-		scene->cylinders.amount++;
+		scene->shapes.amount++;
 	else
 		return (INVALID_OBJ);
 	return (NO_ERR);
@@ -263,16 +280,12 @@ t_err	count_identifiers(char const *arg, t_scene *scene)
 		free(line);
 		if (err != NO_ERR && err != EMPTY_LINE)
 		{
+			close(fd);
 			printf(RED "[parse_identifiers] parse error: %s\n" RESET, line);
 			return (err);
 		}
 	}
 	close(fd);
-//	if (scene->ambient_light.amount > 1)
-//	{
-//		printf("[count_identifiers] to many ambient?\n");
-//		return (PARSE_F);
-//	}
 	return (NO_ERR);
 }
 
@@ -305,36 +318,61 @@ t_err	parse_identifiers(char const *arg, t_scene *scene)
 	return (NO_ERR);
 }
 
-t_err	alloc_object(t_rt_object *object)
+t_err	alloc_scene(t_scene *scene)
 {
-	if (object->type == CAMERA)
-		object->obj = ft_calloc(sizeof(t_rt_obj_camera), object->amount);
-	else if (object->type == LIGHT_P)
-		object->obj = ft_calloc(sizeof(t_rt_obj_light), object->amount);
-	else if (object->type == PLANE)
-		object->obj = ft_calloc(sizeof(t_rt_obj_plane), object->amount);
-	else if (object->type == SPHERE)
-		object->obj = ft_calloc(sizeof(t_rt_obj_sphere), object->amount);
-	else if (object->type == CYLINDER)
-		object->obj = ft_calloc(sizeof(t_rt_obj_cylinder), object->amount);
-	if (!object->obj)
+	scene->cameras.obj = ft_calloc(sizeof(t_rt_obj_camera), scene->cameras.amount);
+	if (!scene->cameras.obj)
+		return (MALLOC_F);
+	scene->lights.obj = ft_calloc(sizeof(t_rt_obj_light), scene->lights.amount);
+	if (!scene->lights.obj)
+		return (MALLOC_F);
+	scene->shapes.obj = ft_calloc(sizeof (t_rt_obj_shape), scene->shapes.amount);
+	if (!scene->shapes.obj)
 		return (MALLOC_F);
 	return (NO_ERR);
 }
 
-t_err	alloc_scene(t_scene *scene)
+void	print_stuff(t_scene *scene)
 {
-	if (alloc_object(&scene->cameras) != NO_ERR)
-		return (MALLOC_F);
-	if (alloc_object(&scene->lights) != NO_ERR)
-		return (MALLOC_F);
-	if (alloc_object(&scene->planes) != NO_ERR)
-		return (MALLOC_F);
-	if (alloc_object(&scene->spheres) != NO_ERR)
-		return (MALLOC_F);
-	if (alloc_object(&scene->cylinders) != NO_ERR)
-		return (MALLOC_F);
-	return (NO_ERR);
+	int i;
+
+	i = 0;
+	while (i < scene->cameras.amount)
+	{
+		printf("Camera id %d\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).id);
+		printf("	x %f\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).position.x);
+		printf("	y %f\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).position.y);
+		printf("	z %f\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).position.z);
+		printf("	x %f\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).orientation.x);
+		printf("	y %f\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).orientation.y);
+		printf("	z %f\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).orientation.z);
+		printf("	fov %d\n", (((t_rt_obj_camera *)(scene->cameras.obj))[i]).fov);
+		i++;
+	}
+	i = 0;
+	while (i < scene->lights.amount)
+	{
+		printf("Light id %d\n", (((t_rt_obj_light *)(scene->lights.obj))[i]).id);
+		printf("	x %f\n", (((t_rt_obj_light *)(scene->lights.obj))[i]).position.x);
+		printf("	y %f\n", (((t_rt_obj_light *)(scene->lights.obj))[i]).position.y);
+		printf("	z %f\n", (((t_rt_obj_light *)(scene->lights.obj))[i]).position.z);
+		printf("	brightness %f\n", (((t_rt_obj_light *)(scene->lights.obj))[i]).ratio);
+		printf("	rgb %d,%d,%d\n", (((t_rt_obj_light *)(scene->lights.obj))[i]).color.r, (((t_rt_obj_light *)(scene->lights.obj))[i]).color.g, (((t_rt_obj_light *)(scene->lights.obj))[i]).color.b);
+		i++;
+	}
+	i = 0;
+	while (i < scene->shapes.amount)
+	{
+		printf("Shape id %d\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).id);
+		printf("	x %f\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).position.x);
+		printf("	y %f\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).position.y);
+		printf("	z %f\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).position.z);
+		printf("	x %f\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).orientation.x);
+		printf("	y %f\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).orientation.y);
+		printf("	z %f\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).orientation.z);
+		printf("	rgb %d,%d,%d\n", (((t_rt_obj_shape *)(scene->shapes.obj))[i]).color.r, (((t_rt_obj_shape *)(scene->shapes.obj))[i]).color.g, (((t_rt_obj_shape *)(scene->shapes.obj))[i]).color.b);
+		i++;
+	}
 }
 
 t_err	parse_input(char const *arg, t_scene *scene)
@@ -349,5 +387,6 @@ t_err	parse_input(char const *arg, t_scene *scene)
 	if (err != NO_ERR)
 		return (err);
 	err = parse_identifiers(arg, scene);
+	print_stuff(scene);
 	return (err);
 }
