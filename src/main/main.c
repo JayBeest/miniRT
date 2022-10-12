@@ -120,45 +120,45 @@ void	hook(void *arg)
 int	main(int argc, char *argv[])
 {
 	t_minirt	rt;
-	t_err		err;
+	t_err		error;
 
 	g_animate = 0;
 	g_frame_pause = 0;
 	g_scene = 1;
 	ft_bzero(&rt, sizeof(rt));
-	err = rt_init(&rt);
-	if (err != NO_ERR)
-		return (err);
+	error = rt_init(&rt);
+	if (error != NO_ERR)
+		return (error);
 	g_scene_switch = 0;
 	if (argc > 1)
 	{
 		if (ft_strncmp(argv[1], "-a", 3) == 0)
 			g_animate = 1;
 		else
-			err = parse_input(argv[1], &rt.scene);
-		if (err != NO_ERR)
+			error = parse_input(argv[1], &rt.scene);
+		if (error != NO_ERR)
 		{
 			printf("parse error\n");
 			exit (2);
 		}
 		// 	g_scene_switch = 1;
 		// if (g_scene_switch || (g_animate == 1 && argc > 2))
-		// 	err = init_temp_scene2(&rt);
+		// 	error = init_temp_scene2(&rt);
 //		if (g_scene == 1)
-//			err = init_temp_scene(&rt);
+//			error = init_temp_scene(&rt);
 //		else
-//			err = init_temp_scene2(&rt);
-		if (err != NO_ERR)
-		{
-			printf("init error\n");
-			exit (3);
-		}
+//			error = init_temp_scene2(&rt);
+//		if (error != NO_ERR)
+//		{
+//			printf("init error\n");
+//			exit (3);
+//		}
 //		return (EXIT_SUCCESS);
 	}
 //	else
-//		err = init_temp_scene(&rt);
-	if (err != NO_ERR)
-		return (err);
+//		error = init_temp_scene(&rt);
+//	if (error != NO_ERR)
+//		return (error);
 //	ft_memset(rt.mlx.img->pixels, 255, rt.mlx.img->width * rt.mlx.img->height * sizeof(int));
 	render_scene(&rt);
 //	printf("rgba 128/128/128/0: %X\n", color_to_int((t_color){97, 97, 97, 255}));
