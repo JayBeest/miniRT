@@ -190,7 +190,7 @@ t_err	parse_line(char *line, t_scene *scene)
 
 	if (line[0] == '\n')
 		return (EMPTY_LINE);
-	split = ft_split_isspace(line);
+	split = ft_split(line, ' ');
 	if (!split)
 		return (EMPTY_LINE);
 	if (split[0][0] == '#')
@@ -249,7 +249,7 @@ t_err	parse_identifier(char *line, t_scene *scene)
 
 	if (line[0] == '\n')
 		return (EMPTY_LINE);
-	split = ft_split_isspace(line);
+	split = ft_split(line, ' ');
 	if (!split)
 		return (EMPTY_LINE);
 	if (split[0][0] == '#')
