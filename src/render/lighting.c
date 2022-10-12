@@ -86,7 +86,7 @@ t_color	calculate_light(t_rt_shape *shape, t_vector n, t_vector p, t_vector v, t
 		}
 		if (scene.lights->specular != -1)
 		{
-			// printf("shape_id: %d specular: %d\n", shape->id, shape->specular);
+			// printf("shape_id: %viewport_distance specular: %viewport_distance\n", shape->id, shape->specular);
 			if (scene.lights->type == POINT_L)
 				l = lp;
 

@@ -19,7 +19,7 @@ t_vector	canvas_to_viewport(int x, int y, t_scene scene)
 
 	v.x = x * scene.viewport_x / scene.resolution_x;
 	v.y = y * scene.viewport_y / scene.resolution_y;
-	v.z = scene.d;
+	v.z = scene.viewport_distance;
 	// v = multip_vector(v, 1 / dot_product(v, v));
 	return (v);
 }

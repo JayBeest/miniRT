@@ -26,13 +26,13 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 	t_quad_result		quad_result;
 
 	intersect_result.closest_shape = NULL;
-	intersect_result.closest_t = INFINITY;
+	intersect_result.intersect_distance = INFINITY;
 	while (node)
 	{
 		(void)self;
 //		if (node == self)
 //		{
-//			intersect_result.closest_t = INFINITY;
+//			intersect_result.intersect_distance = INFINITY;
 //			intersect_result.closest_shape = self;
 //			node = node->next;
 //			continue ;
@@ -41,25 +41,25 @@ t_intersect_result	get_closest_intersection(t_rt_shape *node, t_vector o, t_vect
 		// if (quad_result.t1 < 1000 && quad_result.t1 > 1 && quad_result.t1 == quad_result.t2)
 		// {
 		// 	// printf(RED "edge found!!\n" RESET);
-		// 	intersect_result.closest_t = quad_result.t1;
+		// 	intersect_result.intersect_distance = quad_result.t1;
 		// 	intersect_result.closest_shape = node;
 		// }
 		// else
 		// {
-			if (quad_result.t1 > t_min && quad_result.t1 < t_max && quad_result.t1 < intersect_result.closest_t)
+			if (quad_result.t1 > t_min && quad_result.t1 < t_max && quad_result.t1 < intersect_result.intersect_distance)
 			{
 				if (node == self)
-					intersect_result.closest_t = INFINITY;
+					intersect_result.intersect_distance = INFINITY;
 				else
-					intersect_result.closest_t = quad_result.t1;
+					intersect_result.intersect_distance = quad_result.t1;
 				intersect_result.closest_shape = node;
 			}
-			if (quad_result.t2 > t_min && quad_result.t2 < t_max && quad_result.t2 < intersect_result.closest_t)
+			if (quad_result.t2 > t_min && quad_result.t2 < t_max && quad_result.t2 < intersect_result.intersect_distance)
 			{
 				if (node == self)
-					intersect_result.closest_t = INFINITY;
+					intersect_result.intersect_distance = INFINITY;
 				else
-					intersect_result.closest_t = quad_result.t2;
+					intersect_result.intersect_distance = quad_result.t2;
 				intersect_result.closest_shape = node;
 			}
 		// }
@@ -75,7 +75,7 @@ t_color	trace_ray(t_vector o, t_vector d, t_scene scene)
 	intersect_result = get_closest_intersection(scene.shapes, o, d, 1, INFINITY, NULL);
 	if (!intersect_result.closest_shape)
 		return ((t_color){0, 0, 0, 255});
-	return (precalculate_light(intersect_result.closest_shape, o, d, intersect_result.closest_t, scene));
+	return (precalculate_light(intersect_result.closest_shape, o, d, intersect_result.intersect_distance, scene));
 }
 
 t_mult_pixel	get_multi_pix(t_scene scene, int id)
@@ -119,10 +119,10 @@ void	*render_thread(void *arg)
 	t_mult_pixel	m_pix;
 	int 			x;
 	int 			y;
-	t_vector		d;
+	t_vector		direction;
 	t_color			color;
 
-//	printf("this is pthread :%d\n", ((t_pthr_arg *)arg)->id);
+//	printf("this is pthread :%direction\n", ((t_pthr_arg *)arg)->id);
 	rt = ((t_pthr_arg *)arg)->rt;
 	m_pix = get_multi_pix(rt->scene, ((t_pthr_arg *)arg)->id);
 	x = m_pix.min_x;
@@ -131,8 +131,8 @@ void	*render_thread(void *arg)
 		y = m_pix.min_y;
 		while (y < m_pix.max_y)
 		{
-			d = canvas_to_viewport(x, y, rt->scene);
-			color = trace_ray(rt->scene.origin, d, rt->scene);
+			direction = canvas_to_viewport(x, y, rt->scene);
+			color = trace_ray(rt->scene.origin, direction, rt->scene);
 			rt_putpixel(x, y, color_to_int(color), rt);
 			y++;
 		}
@@ -159,7 +159,7 @@ t_err	render_scene(t_minirt *rt)
 	while (i < 4)
 	{
 		if (pthread_create(&pthread[i], NULL, &render_thread, &arg[i]))
-			printf("pthread id[%d] failed\n", i);
+			printf("pthread id[%viewport_distance] failed\n", i);
 		i++;
 	}
 	i = 0;

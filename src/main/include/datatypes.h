@@ -134,7 +134,7 @@ typedef struct s_rt_shape
 typedef struct s_intersect_result
 {
 	t_rt_shape	*closest_shape;
-	double		closest_t;
+	double		intersect_distance;
 
 }		t_intersect_result;
 
@@ -144,7 +144,7 @@ typedef struct s_scene
 	int 		resolution_y;
 	int			viewport_x;
 	int			viewport_y;
-	int 		d;
+	int 		viewport_distance;
 	t_vector	origin;
 	t_rt_shape	ambient_light;
 	t_rt_shape	*cameras;
